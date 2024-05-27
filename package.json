@@ -1,0 +1,45 @@
+{
+  "name": "spine-viewer-vue",
+  "version": "0.0.0",
+  "main": "electron/backend.js",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron": "wait-on tcp:5173 && electron .",
+    "electron:serve": "set IS_DEV=true && concurrently -k \"npm run dev\" \"electron .\"",
+    "electron:build": "electron-builder"
+  },
+  "dependencies": {
+    "pinia": "^2.1.7",
+    "pixi-spine": "^3.1.2",
+    "pixi.js": "^6.5.10",
+    "vue": "^3.4.15"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.3",
+    "concurrently": "^8.2.2",
+    "electron": "^30.0.1",
+    "electron-builder": "^24.13.3",
+    "vite": "^5.0.11",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "spine.viewer",
+    "copyright": "Jitsu",
+    "productName": "Spine Viewer",
+    "asar": false,
+    "win": {
+      "icon": "./src/assets/image/otogi.ico"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "directories": {
+      "buildResources": "resource",
+      "output": "dist_electron"
+    }
+  }
+}

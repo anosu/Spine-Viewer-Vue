@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+li::marker {
+    content: '';
+}
+
+html, body, #app {
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#app {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    flex-direction: column;
+    background-color: #616066;
+}
+
+button {
+    padding: 2px;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+}
+
+.row {
+    gap: 5px;
+    padding: 3px;
+    display: flex;
+    margin: 5px 0 5px 0;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.col {
+    gap: 5px;
+    padding: 3px;
+    display: flex;
+    margin: 20px 0 20px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.row-label {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list {
+    color: white;
+    width: 100%;
+    padding: 5px;
+    min-height: 80px;
+    user-select: none;
+    border-radius: 5px;
+    background-color: #585858;
+}
+
+.list li > * {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 7px 5px;
+    justify-content: space-between;
+}
+
+input.list-option {
+    display: none;
+}
+
+.list-option + label {
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.list-option:checked + label {
+    background-color: #728181;
+}
+
+
+.bg-wrap {
+    gap: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.i-checkbox-wrap {
+    position: relative;
+    margin-bottom: 3px;
+    margin-right: 15px;
+}
+
+.i-checkbox {
+    opacity: 0;
+}
+
+.i-label {
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 3px;
+    transform: translate(-50%, -50%);
+}
+
+.i-label:after {
+    content: " ";
+    border: 2px solid #DDD;
+    display: block;
+    line-height: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 3px;
+    width: 100%;
+    height: 100%;
+}
+
+.i-checkbox:checked + .i-label:after {
+    content: "✓";
+    border-color: #738b70;
+    background-color: #738b70;
+    color: #fff;
+}
