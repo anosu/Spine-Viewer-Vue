@@ -17,5 +17,5 @@ Support exporting animation as GIF/MP4 with embedded ffmpeg.
 
 ```
 npm i
-npm run electron:build
+npm run build
 ```
