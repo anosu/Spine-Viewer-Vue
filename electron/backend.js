@@ -37,7 +37,7 @@ const createWindow = (log) => {
     })
 
     if (process.env.IS_DEV) {
-        win.loadURL('http://localhost:5173').then(() => {
+        win.loadURL('http://localhost:8192').then(() => {
             win.webContents.send('logs-out', log)
         })
         win.openDevTools()
@@ -144,7 +144,7 @@ app.whenReady().then(() => {
         let instruction;
         switch (options.format) {
             case 'MP4':
-                instruction = `"${process.env.FFMPEG_PATH}" -y -r ${options.framerate} -i "${path.join(imagePath, '%05d.png')}" -crf 17 "${path.join(outputPath, options.filename + '.mp4')}"`
+                instruction = `"${process.env.FFMPEG_PATH}" -y -r ${options.framerate} -i "${path.join(imagePath, '%05d.png')}" -vf "crop=if(mod(iw\\,2)\\,iw-1\\,iw):if(mod(ih\\,2)\\,ih-1\\,ih)" -crf 17 -pix_fmt yuv420p "${path.join(outputPath, options.filename + '.mp4')}"`
                 break
             case 'GIF':
             default:

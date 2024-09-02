@@ -18,7 +18,7 @@ import GlobalSide from "@/components/GlobalSide.vue";
 import * as PIXI from 'pixi.js'
 import {Spine} from "pixi-spine";
 import {getById, getUrlsByPaths, makeSwitcher} from "@/utils/util";
-import {onMounted, provide, ref, toRefs, watch} from "vue";
+import {computed, onMounted, provide, ref, toRefs, watch} from "vue";
 import {useExportStore} from "@/stores/export";
 import {useSceneStore} from "@/stores/scene";
 import {useAppStore} from "@/stores/app";
@@ -221,11 +221,24 @@ function onLoaded(loader, res) {
         validSkeletonAnimations.forEach(a => activeContainer.stage.addChild(a))
         skins.value = newSkins;
         animations.value = newAnimations;
-        slots.value = newSlots
+        slots.value = newSlots.sort(slotCompare)
         activeContainer.textures = newTextures
         activeContainer.data.tracks.length = 0
         activeContainer.data.queue.forEach(q => q.length = 0)
         appStore.items[appStore.activeIndex] = activeContainer.name
+    }
+
+    function slotCompare(slot1, slot2) {
+        if (!slot1?.data.name || !slot2?.data.name) {
+            return 0
+        }
+        if (slot1.data.name > slot2.data.name) {
+            return 1
+        }
+        if (slot1.data.name < slot2.data.name) {
+            return -1
+        }
+        return 0
     }
 
 }

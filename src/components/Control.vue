@@ -149,9 +149,21 @@
                 <button @click="resetSlots">重置</button>
             </span>
             <ol class="list" id="slots">
-                <li v-for="(slot, i) of data.slots" :key="i"
+                <li v-for="(slot, i) of data.slots.filter(s => s.currentMesh)" :key="i"
                     v-show="slot?.data.name.toLowerCase().indexOf(data.slotKey.toLowerCase()) >= 0">
-                    <span class="slot-title" :title="slot.data.name">{{ slot.data.name }}</span>
+                    <span class="slot-title" :title="slot.data.name">
+                        <span class="slot-title-text">{{ slot.data.name }}</span>
+                        <span class="i-checkbox-wrap">
+                            <input type="checkbox"
+                                   :id="`${i}-${slot.data.name}-state`"
+                                   class="i-checkbox"
+                                   v-model.number="slot.color.a"
+                                   :true-value="1"
+                                   :false-value="0"
+                            >
+                            <label :for="`${i}-${slot.data.name}-state`" class="i-label"></label>
+                        </span>
+                    </span>
                     <div class="slot-alpha">
                         <label :for="`${i}-${slot.data.name}`">A:</label>
                         <input :id="`${i}-${slot.data.name}`"
@@ -167,11 +179,10 @@
 </template>
 
 <script setup>
-import {computed, inject, onMounted, ref, toRefs, watch} from "vue";
-import {createTag, getById, getFileUrl, getUrlsByPaths, makeSwitcher} from "@/utils/util";
+import {computed, inject, onMounted, ref, watch} from "vue";
+import {createTag, getFileUrl, getUrlsByPaths, makeSwitcher} from "@/utils/util";
 import {useExportStore} from "@/stores/export";
 import {useAppStore} from "@/stores/app";
-import {storeToRefs} from "pinia";
 
 const controlBar = ref()
 const fileInput = ref()
@@ -251,6 +262,9 @@ const removeBackgroundImage = () => {
 const resetSlots = () => {
     data.value.slots.forEach(slot => {
         slot.color.a = slot.data.color.a
+        if (slot.currentMesh) {
+            slot.currentMesh.alpha = 1
+        }
     })
 }
 
@@ -409,7 +423,12 @@ input[name='animation'] {
 }
 
 .slot-title {
-    width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.slot-title-text {
+    width: 200px;
     overflow: hidden;
 }
 
