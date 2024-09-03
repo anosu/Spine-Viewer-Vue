@@ -79,7 +79,7 @@ onMounted(() => {
 
 pixiApp.view.addEventListener('wheel', (ev) => {
     ev.preventDefault();
-    const minScale = 0.1, maxScale = 5;
+    const minScale = 0.01, maxScale = 10;
     const active = appStore.getActive()
     if (ev.ctrlKey) {
         if (!active.background) return
