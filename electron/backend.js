@@ -1,7 +1,7 @@
 const {app, BrowserWindow, ipcMain, Menu, MenuItem, dialog, session} = require('electron/main')
 const {exec} = require('child_process')
 const path = require('path')
-const http = require("http");
+// const http = require("http");
 const fs = require("fs");
 
 app.commandLine.appendSwitch('charset', 'utf-8');
