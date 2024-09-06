@@ -1,6 +1,6 @@
 {
   "name": "spine-viewer-vue",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "electron/backend.js",
   "private": true,
   "scripts": {

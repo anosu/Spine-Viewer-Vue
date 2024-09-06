@@ -7,7 +7,9 @@ export const createTag = (e) => {
 }
 
 export const getFileUrl = (filePath) => {
-    return `http://localhost:${port}/${filePath.replaceAll('\\', '/')}`
+    // return `http://localhost:${port}/${filePath.replaceAll('\\', '/')}`
+    console.log(filePath)
+    return filePath.replaceAll('\\', '/')
 }
 
 export const getUrlsByPaths = (paths) => {

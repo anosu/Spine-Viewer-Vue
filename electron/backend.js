@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain, Menu, MenuItem, dialog} = require('electron/main')
+const {app, BrowserWindow, ipcMain, Menu, MenuItem, dialog, session} = require('electron/main')
 const {exec} = require('child_process')
 const path = require('path')
 const http = require("http");
@@ -21,9 +21,9 @@ const createWindow = (log) => {
         fullscreenable: false,
         autoHideMenuBar: true,
         webPreferences: {
+            webSecurity: false,
             nodeIntegration: true,
             contextIsolation: false,
-            webSecurity: !process.env.IS_DEV,
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -48,36 +48,35 @@ const createWindow = (log) => {
     }
 }
 
-// 创建一个本地 HTTP 服务器
-const server = http.createServer((req, res) => {
-    let filePath = decodeURIComponent(req.url.slice(1))
-    let fileExists;
-    if (filePath.endsWith('.atlas')) {
-        let txtPath = filePath + '.txt'
-        filePath = (fs.existsSync(filePath) && filePath) || (fs.existsSync(txtPath) && txtPath)
-        fileExists = !!filePath
-    } else {
-        fileExists = fs.existsSync(filePath)
-    }
-    if (!fileExists) {
-        res.writeHead(404);
-        res.end('File not found');
-        return;
-    }
-
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            res.writeHead(500);
-            res.end('Error loading file');
-            return;
-        }
-        res.writeHead(200);
-        res.end(data);
-    });
-});
-
-server.listen(0, 'localhost', () => {
-});
+// const server = http.createServer((req, res) => {
+//     let filePath = decodeURIComponent(req.url.slice(1))
+//     let fileExists;
+//     if (filePath.endsWith('.atlas')) {
+//         let txtPath = filePath + '.txt'
+//         filePath = (fs.existsSync(filePath) && filePath) || (fs.existsSync(txtPath) && txtPath)
+//         fileExists = !!filePath
+//     } else {
+//         fileExists = fs.existsSync(filePath)
+//     }
+//     if (!fileExists) {
+//         res.writeHead(404);
+//         res.end('File not found');
+//         return;
+//     }
+//
+//     fs.readFile(filePath, (err, data) => {
+//         if (err) {
+//             res.writeHead(500);
+//             res.end('Error loading file');
+//             return;
+//         }
+//         res.writeHead(200);
+//         res.end(data);
+//     });
+// });
+//
+// server.listen(0, 'localhost', () => {
+// });
 
 
 app.whenReady().then(() => {
@@ -92,6 +91,18 @@ app.whenReady().then(() => {
     }
 
     createWindow(log)
+
+    session.defaultSession.webRequest.onBeforeRequest({urls: ['file://*']}, (details, callback) => {
+        let reqUrl = details.url
+        const filePath = decodeURIComponent(reqUrl.slice(8))
+
+        if (filePath.endsWith('.atlas') && !fs.existsSync(filePath)) {
+            reqUrl = reqUrl + '.txt'
+            callback({redirectURL: reqUrl})
+        } else {
+            callback({cancel: false})
+        }
+    })
 
     ipcMain.handle('port', () => server.address().port)
     ipcMain.on('minimize', () => win.minimize())
