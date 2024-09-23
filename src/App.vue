@@ -25,7 +25,7 @@ import {useAppStore} from "@/stores/app";
 import useApp from "@/hooks/useApp";
 
 ipcRenderer.on('logs-out', (_ev, logs) => {
-    console.log('logs: ', logs)
+    console.log('[INFO] ', logs)
 })
 
 // 子组件
@@ -74,12 +74,13 @@ const exportAnimation = () => {
             standard.index = i
             standard.duration = info.totalDuration
         }
-        c.setAutoUpdate(false)
     })
 
     let {format, framerate, filename, path} = exportStore.options
 
     if (!standard.duration || !path) return
+
+    appStore.containers.forEach(c => c.setAutoUpdate(false))
     if (Number.isNaN(framerate) || framerate < 1 || framerate > 60) {
         framerate = format === 'MP4' ? 30 : 20
     }
@@ -140,11 +141,13 @@ ipcRenderer.on('export-complete', () => {
 
 window.onerror = function (message) {
     if (message.includes('Texture Error')) {
-        console.error(message)
         alert('贴图尺寸与图集不符合！')
         location.reload()
+    } else if (message.includes('Region not found')) {
+        alert('Spine文件错误')
+        location.reload()
     }
-};
+}
 
 function loadFiles(fileUrls) {
     pixiApp.loader

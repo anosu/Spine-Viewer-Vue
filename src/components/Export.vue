@@ -9,7 +9,7 @@
             </div>
             <div class="export-option input">
                 <select id="export-format" v-model="store.options.format">
-                    <option v-for="option in ['GIF', 'MP4']">{{ option }}</option>
+                    <option v-for="(desc, option) in formats" :value="option">{{ desc }}</option>
                 </select>
                 <input type="number" min="1" max="60"
                        v-model.number="store.options.framerate"
@@ -45,6 +45,12 @@ const emit = defineEmits(['exportAnimation'])
 
 const selectExportPath = async () => {
     store.options.path = await ipcRenderer.invoke('select-export-path')
+}
+
+const formats = {
+    'GIF': 'GIF',
+    'MP4': 'MP4',
+    'GIF-HQ': 'GIF (HQ)',
 }
 
 </script>

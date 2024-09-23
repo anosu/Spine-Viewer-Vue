@@ -1,5 +1,5 @@
 const {app, BrowserWindow, ipcMain, Menu, MenuItem, dialog, session} = require('electron/main')
-const {exec} = require('child_process')
+const {exec, spawn} = require('child_process')
 const path = require('path')
 // const http = require("http");
 const fs = require("fs");
@@ -81,6 +81,7 @@ const createWindow = (log) => {
 
 app.whenReady().then(() => {
     let log = {
+        name: 'app',
         error: ''
     }
     if (!fs.existsSync(process.env.CACHE_PATH)) {
@@ -93,15 +94,15 @@ app.whenReady().then(() => {
     createWindow(log)
 
     session.defaultSession.webRequest.onBeforeRequest({urls: ['file://*']}, (details, callback) => {
-        let reqUrl = details.url
-        const filePath = decodeURIComponent(reqUrl.slice(8))
-
-        if (filePath.endsWith('.atlas') && !fs.existsSync(filePath)) {
-            reqUrl = reqUrl + '.txt'
-            callback({redirectURL: reqUrl})
-        } else {
-            callback({cancel: false})
+        const reqUrl = details.url
+        if (reqUrl.endsWith('.atlas')) {
+            const filePath = decodeURIComponent(reqUrl.slice(8))
+            if (!fs.existsSync(filePath)) {
+                callback({redirectURL: reqUrl + '.txt'})
+                return
+            }
         }
+        callback({cancel: false})
     })
 
     ipcMain.handle('port', () => server.address().port)
@@ -151,18 +152,29 @@ app.whenReady().then(() => {
     ipcMain.handle('save-image-cache', (ev, image) => saveBase64Image(image))
     ipcMain.handle('ffmpeg', (ev, options) => {
         const imagePath = path.join(process.env.CACHE_PATH, filename)
-        const outputPath = options.path
-        let instruction;
+        const inputPath = path.join(imagePath, '%05d.png')
+        const outputPath = path.join(options.path, options.filename)
+        const ffmpegArgs = ['-y', '-r', options.framerate.toString(), '-i', inputPath]
         switch (options.format) {
             case 'MP4':
-                instruction = `"${process.env.FFMPEG_PATH}" -y -r ${options.framerate} -i "${path.join(imagePath, '%05d.png')}" -vf "crop=if(mod(iw\\,2)\\,iw-1\\,iw):if(mod(ih\\,2)\\,ih-1\\,ih)" -crf 17 -pix_fmt yuv420p "${path.join(outputPath, options.filename + '.mp4')}"`
+                ffmpegArgs.push(...['-vf', 'crop=if(mod(iw\\,2)\\,iw-1\\,iw):if(mod(ih\\,2)\\,ih-1\\,ih)', '-crf', '17', '-pix_fmt', 'yuv420p', `${outputPath}.mp4`])
+                break
+            case 'GIF-HQ':
+                ffmpegArgs.push(...['-vf', 'split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse', `${outputPath}.gif`])
                 break
             case 'GIF':
             default:
-                instruction = `"${process.env.FFMPEG_PATH}" -y -r ${options.framerate} -i "${path.join(imagePath, '%05d.png')}" "${path.join(outputPath, options.filename + '.gif')}"`
+                ffmpegArgs.push(`${outputPath}.gif`)
                 break
         }
-        exec(instruction, (error, stdout, stderr) => {
+        const ffmpegProcess = spawn(process.env.FFMPEG_PATH, ffmpegArgs)
+        ffmpegProcess.stdout.on('data', (data) => {
+            win.webContents.send('logs-out', {name: 'ffmpeg', stdout: data.toString()})
+        })
+        ffmpegProcess.stderr.on('data', (data) => {
+            win.webContents.send('logs-out', {name: 'ffmpeg', stderr: data.toString()})
+        })
+        ffmpegProcess.on('close', (code) => {
             fs.readdir(imagePath, (err, files) => {
                     files.forEach(file => {
                         const filePath = path.join(imagePath, file);
@@ -172,7 +184,7 @@ app.whenReady().then(() => {
                 }
             )
             win.webContents.send('export-complete')
-            win.webContents.send('logs-out', {stdout, stderr})
+            win.webContents.send('logs-out', {name: 'export', code})
         })
     })
 
