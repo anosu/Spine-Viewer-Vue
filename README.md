@@ -2,7 +2,7 @@
 
 Version rewritten with Vue.js of [Spine Viewer](https://github.com/anosu/Spine-Viewer)
 
-~~Supported spine version: 3.6-4.1~~
+~Supported spine version: 3.6-4.1~
 
 Use [Electron](https://www.electronjs.org) + [Vue.js](https://vuejs.org/)
 and [Pixi.js](https://github.com/pixijs/pixijs) + [Pixi-Spine](https://github.com/pixijs/spine)
