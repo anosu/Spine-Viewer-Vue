@@ -145,14 +145,29 @@
             <span class="row-label">
                 插槽
                 <input type="text" v-model="data.slotKey"
-                       class="slot-key" spellcheck="false" placeholder="key">
+                       class="slot-key"
+                       spellcheck="false"
+                       placeholder="keyword">
+                <input type="checkbox" v-model="pathSwitch"
+                       id="path-switch"
+                       class="track-radio">
+                <label for="path-switch" class="animation-track">P</label>
                 <button @click="resetSlots">重置</button>
             </span>
             <ol class="list" id="slots">
                 <li v-for="(slot, i) of data.slots" :key="i"
-                    v-show="slot?.data.name.toLowerCase().indexOf(data.slotKey.toLowerCase()) >= 0">
-                    <span class="slot-title" :title="slot.data.name">
-                        <span class="slot-title-text">{{ slot.data.name }}</span>
+                    v-show="(
+                        pathSwitch
+                        ? slot.attachment?.path || ''
+                        : slot.data?.name || ''
+                    )
+                    .toLowerCase()
+                    .includes(data.slotKey.toLowerCase())">
+                    <span class="slot-title"
+                          :title="pathSwitch ? 'Path: ' + (slot.attachment?.path || null) : slot.data.name">
+                        <span class="slot-title-text">
+                            {{ pathSwitch ? 'Path: ' + (slot.attachment?.path || null) : slot.data.name }}
+                        </span>
                         <span class="i-checkbox-wrap">
                             <input type="checkbox"
                                    :id="`${i}-${slot.data.name}-state`"
@@ -193,6 +208,8 @@ const exportStore = useExportStore()
 const data = computed(() => {
     return appStore.active.container.data
 })
+
+const pathSwitch = ref(false)
 
 const pixiApp = inject('pixiApp')
 
@@ -416,6 +433,7 @@ input[name='animation'] {
 }
 
 .slot-key {
+    width: 60%;
     height: 21px;
     border: none;
     padding: 0 10px;

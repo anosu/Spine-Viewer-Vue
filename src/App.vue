@@ -18,7 +18,7 @@ import GlobalSide from "@/components/GlobalSide.vue";
 import * as PIXI from 'pixi.js'
 import {Spine} from "pixi-spine";
 import {getById, getUrlsByPaths, makeSwitcher} from "@/utils/util";
-import {computed, onMounted, provide, ref, toRefs, watch} from "vue";
+import {onMounted, provide, ref, toRefs, watch} from "vue";
 import {useExportStore} from "@/stores/export";
 import {useSceneStore} from "@/stores/scene";
 import {useAppStore} from "@/stores/app";
