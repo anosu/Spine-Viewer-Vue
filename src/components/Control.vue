@@ -149,7 +149,7 @@
                 <button @click="resetSlots">重置</button>
             </span>
             <ol class="list" id="slots">
-                <li v-for="(slot, i) of data.slots.filter(s => s.currentMesh)" :key="i"
+                <li v-for="(slot, i) of data.slots" :key="i"
                     v-show="slot?.data.name.toLowerCase().indexOf(data.slotKey.toLowerCase()) >= 0">
                     <span class="slot-title" :title="slot.data.name">
                         <span class="slot-title-text">{{ slot.data.name }}</span>
@@ -262,9 +262,9 @@ const removeBackgroundImage = () => {
 const resetSlots = () => {
     data.value.slots.forEach(slot => {
         slot.color.a = slot.data.color.a
-        if (slot.currentMesh) {
-            slot.currentMesh.alpha = 1
-        }
+        // if (slot.currentMesh) {
+        //     slot.currentMesh.alpha = 1
+        // }
     })
 }
 

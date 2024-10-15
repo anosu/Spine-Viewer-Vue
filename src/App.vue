@@ -178,14 +178,14 @@ function onLoaded(loader, res) {
                     p.baseTexture.alphaMode = alphaMode
                     newTextures.push(p.baseTexture)
                 });
-                const skeletonAnimation = new Spine(res[key].spineData);
+                const skeletonAnimation = new Spine(res[key].spineData)
                 skeletonAnimation.position.set(position.x, position.y)
                 skeletonAnimation.scale.set(zoom)
                 skeletonAnimation.state.timeScale = timeScale
                 skeletonAnimation.state.data.defaultMix = defaultMix
                 skeletonAnimation.autoUpdate = true
 
-                const currentSkins = skeletonAnimation.spineData.skins.map(s => s.name);
+                const currentSkins = skeletonAnimation.spineData.skins.map(s => s.name)
                 const currentAnimations = skeletonAnimation.spineData.animations.map(a => {
                     return {
                         name: a.name,
@@ -204,7 +204,7 @@ function onLoaded(loader, res) {
                         }
                     }
                     for (let i = toRemoveIndex.length - 1; i > -1; i--) {
-                        newAnimations.splice(toRemoveIndex[i], 1);
+                        newAnimations.splice(toRemoveIndex[i], 1)
                     }
                 }
                 [].push.apply(newSlots, skeletonAnimation.skeleton.slots)
@@ -222,8 +222,8 @@ function onLoaded(loader, res) {
             if (activeContainer.background) activeContainer.stage.addChild(activeContainer.background)
         }
         validSkeletonAnimations.forEach(a => activeContainer.stage.addChild(a))
-        skins.value = newSkins;
-        animations.value = newAnimations;
+        skins.value = newSkins
+        animations.value = newAnimations
         slots.value = newSlots.sort(slotCompare)
         activeContainer.textures = newTextures
         activeContainer.data.tracks.length = 0
