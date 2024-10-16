@@ -1,9 +1,9 @@
 <template>
     <div id="global-side" :class="displayClass">
         <div class="row">
-            <label for="color-input">背景</label>
+            <label for="color-input" title="Background Color">背景</label>
             <span class="bg-wrap">
-                <span>透明</span>
+                <span title="Transparent">透明</span>
                 <span class="i-checkbox-wrap">
                     <input type="checkbox" id="bg-transparent" class="i-checkbox"
                            v-model="sceneStore.transparent">
@@ -15,15 +15,15 @@
             </span>
         </div>
         <div class="row">
-            <button @click="addContainer">新增</button>
-            <button @click="removeContainer">删除</button>
-            <button @click="resetAll">重置所有</button>
+            <button @click="addContainer" title="Add">新增</button>
+            <button @click="removeContainer" title="Remove">删除</button>
+            <button @click="resetAll" title="Reset All">重置所有</button>
         </div>
         <div class="row">
-            <button @click="shiftUpContainer">上移</button>
-            <button @click="shiftDownContainer">下移</button>
+            <button @click="shiftUpContainer" title="Shift Up">上移</button>
+            <button @click="shiftDownContainer" title="Shift Down">下移</button>
             <span class="bg-wrap">
-                <span>叠加</span>
+                <span title="Superposition">叠加</span>
                 <span class="i-checkbox-wrap">
                     <input type="checkbox" id="superposition" class="i-checkbox"
                            v-model="appStore.superposition">
@@ -32,20 +32,23 @@
              </span>
         </div>
         <div class="row">
-            当前选中：<span>{{ appStore.activeIndex }}</span>
+            <span title="Current Selection">当前选中：</span>
+            <span>{{ appStore.activeIndex }}</span>
         </div>
         <ItemBar/>
         <div class="row">
-            <button @click="playAllAnimationQueue">播放队列</button>
+            <button @click="playAllAnimationQueue" title="Play Queue">播放队列</button>
 
-            <button @click="exportStore.show">导出动画</button>
+            <button @click="exportStore.show" title="Export Animation">导出动画</button>
         </div>
         <div class="row">
-            <button @click="cancelAllHidden">取消隐藏</button>
-            <button @click="saveImage">保存图片</button>
+            <button @click="cancelAllHidden" title="Unhide">取消隐藏</button>
+            <button @click="saveImage" title="Save Image">保存图片</button>
         </div>
         <div class="tips">
-            鼠标中键收起/展开
+            <span >Hover over text to get English</span>
+            <span title="Press Ctrl+Shift+I to open the console to check errors">Ctrl+Shift+I打开控制台检查报错</span>
+            <span title="Middle mouse button collapse/expand">鼠标中键收起/展开</span>
         </div>
     </div>
 </template>
@@ -138,7 +141,11 @@ const saveImage = () => {
 }
 
 .tips {
+    display: flex;
     margin-top: auto;
-    align-self: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 12px;
+    gap: 3px;
 }
 </style>

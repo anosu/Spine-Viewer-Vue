@@ -1,7 +1,13 @@
 <template>
     <HeaderBar/>
     <main id="main">
-        <div id="mask" v-show="isShowMask">拖拽骨架文件到此</div>
+        <div id="mask" v-show="isShowMask">
+            拖拽骨架文件到此
+            <br>
+            Drag the skeleton file here
+            <br>
+            .skel/.json
+        </div>
         <ControlBar ref="controlBar" @load="loadFiles"/>
         <MainStage ref="mainStage"/>
         <GlobalSide ref="globalSide"/>
@@ -141,11 +147,17 @@ ipcRenderer.on('export-complete', () => {
 
 window.onerror = function (message) {
     if (message.includes('Texture Error')) {
-        alert('贴图尺寸与图集不符合！')
+        alert('贴图尺寸与图集不符合！\nWrong texture size!')
         location.reload()
     } else if (message.includes('Region not found')) {
-        alert('Spine文件错误')
+        alert('Spine文件错误！\nBad spine file!')
         location.reload()
+    } else if (message.includes("TypeError: Cannot set properties of null (setting 'scale')")) {
+        alert('不支持的Spine版本！\nUnsupported version of spine model!')
+        location.reload()
+    } else if (message.includes('ResizeObserver loop completed')) {
+    } else {
+        alert(message)
     }
 }
 

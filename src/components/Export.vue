@@ -2,10 +2,10 @@
     <div class="overlay">
         <div id="export-box">
             <div class="export-option label">
-                <label for="export-format">输出格式：</label>
-                <label for="export-framerate">帧率：</label>
-                <label for="export-filename">文件名：</label>
-                <label for="export-path">输出目录：</label>
+                <label for="export-format" title="Output format">输出格式：</label>
+                <label for="export-framerate" title="Framerate">帧率：</label>
+                <label for="export-filename" title="File name">文件名：</label>
+                <label for="export-path" title="Output directory">输出目录：</label>
             </div>
             <div class="export-option input">
                 <select id="export-format" v-model="store.options.format">
@@ -19,18 +19,19 @@
                 <span class="path-select">
                     <input type="text" id="export-path" v-model="store.options.path" placeholder="不能为空"
                            spellcheck="false">
-                    <button @click="selectExportPath()">选择</button>
+                    <button @click="selectExportPath()" title="Select">选择</button>
                 </span>
             </div>
             <span class="export-progress-show">
                 <span class="export-progress-wrapper">
                     <progress id="export-progress" :value="store.progress.current"
-                              :max="store.progress.total"></progress>
+                              :max="store.progress.total">
+                    </progress>
                 </span>
                 <span id="progress-show">{{ store.progress.current }}/{{ store.progress.total }}</span>
             </span>
             <span class="export-option button">
-                <button @click="store.hide" :disabled="store.running">关闭</button>
+                <button @click="store.hide" :disabled="store.running" title="Close">关闭</button>
                 <button @click="emit('exportAnimation')" :disabled="store.running">{{ store.status }}</button>
             </span>
         </div>

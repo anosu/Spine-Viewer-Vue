@@ -2,35 +2,35 @@
     <div id="side" ref="controlBar">
         <div class="row">
             <input type="file" ref="fileInput" id="fileInput" multiple accept=".json,.skel" placeholder="">
-            <button @click="switchControl">收起</button>
+            <button @click="switchControl" title="Switch collapse/expand">收起</button>
         </div>
         <div class="row">
-            <label for="zoom" class="option-label">缩放</label>
+            <label for="zoom" class="option-label" title="Zoom">缩放</label>
             <input type="range" id="zoom" v-model.number="data.zoom" min="0.1" max="5"
                    step="0.01">
             <span class="option-value">{{ (data.zoom * 100).toFixed() }}%</span>
-            <button @click="resetZoom">重置</button>
+            <button @click="resetZoom" title="Reset">重置</button>
         </div>
         <div class="row">
-            <label for="time-scale" class="option-label">速度</label>
+            <label for="time-scale" class="option-label" title="Speed">速度</label>
             <input type="range" id="time-scale" v-model.number="data.timeScale" min="0"
                    max="5"
                    step="0.01">
             <span id="speed-show" class="option-value">{{ data.timeScale.toFixed(2) }}x</span>
-            <button @click="resetSpeed">重置</button>
+            <button @click="resetSpeed" title="Reset">重置</button>
         </div>
         <div class="row">
-            <label for="default-mix" class="option-label">Mix</label>
+            <label for="default-mix" class="option-label" title="MixTime">Mix</label>
             <input type="range" id="default-mix" v-model.number="data.defaultMix" min="0"
                    max="2"
                    step="0.1">
             <span id="default-mix-show" class="option-value">
                 {{ data.defaultMix.toFixed(1) }}s
             </span>
-            <button @click="resetMix">重置</button>
+            <button @click="resetMix" title="Reset">重置</button>
         </div>
         <div class="row">
-            <span>透明度模式</span>
+            <span title="Alpha Mode">透明度模式</span>
             <ol class="option-bar">
                 <li v-for="(alias, mode) in ['NPM', 'UNPACK', 'PMA']">
                     <input type="radio" name="alpha-mode"
@@ -42,16 +42,16 @@
             </ol>
         </div>
         <div class="row">
-            <button @click="resetPosition" style="width: 70px">重置位置</button>
-            <button @click="pauseAnimation" style="width: 70px">暂停动画</button>
+            <button @click="resetPosition" style="width: 70px" title="Reset Position">重置位置</button>
+            <button @click="pauseAnimation" style="width: 70px" title="Stop Animation">暂停动画</button>
         </div>
         <div class="row">
-            <button @click="setBackgroundImage" style="width: 70px">设置背景</button>
-            <button @click="removeBackgroundImage" style="width: 70px">移除背景</button>
+            <button @click="setBackgroundImage" style="width: 70px" title="Set Background">设置背景</button>
+            <button @click="removeBackgroundImage" style="width: 70px" title="Remove Background">移除背景</button>
         </div>
 
         <div class="col">
-            <span class="animation-label">皮肤</span>
+            <span class="animation-label" title="Skin">皮肤</span>
             <ol class="list">
                 <li v-for="(skin, i) of data.skins" :key="i">
                     <input :id="`skin-${skin}`" :value="skin"
@@ -65,7 +65,7 @@
         </div>
         <div class="col">
             <div class="row-label">
-                动画
+                <span title="Animation">动画</span>
                 <ol class="track-wrap">
                     <li v-for="i in 7" :key="i-1">
                         <input type="radio" name="animation-track" :id="`animation-track${i-1}`" :value="i-1"
@@ -74,7 +74,7 @@
                         <label :for="`animation-track${i-1}`" class="animation-track">{{ i - 1 }}</label>
                     </li>
                 </ol>
-                <button @click="exportStore.show">导出</button>
+                <button @click="exportStore.show" title="Export">导出</button>
             </div>
             <ol class="list">
                 <li v-for="(animation,i) in data.animations" :key="`${appStore.activeIndex}-${i}`">
@@ -102,7 +102,7 @@
         </div>
         <div class="col">
             <div class="row-label">
-                队列
+                <span title="Animation Queue">队列</span>
                 <ol class="track-wrap">
                     <li v-for="i in 7" :key="i-1">
                         <input type="radio" name="animation-queue-track"
@@ -113,7 +113,7 @@
                         <label :for="`animation-queue-track${i-1}`" class="animation-track">{{ i - 1 }}</label>
                     </li>
                 </ol>
-                <button @click="playAnimationQueue">播放</button>
+                <button @click="playAnimationQueue" title="Play">播放</button>
             </div>
             <ol class="list">
                 <li v-for="(animation, i) in data.queue[data.queue.checked]"
@@ -129,21 +129,25 @@
                 </li>
             </ol>
             <div class="row-label functions">
-                <button @click="appStore.getActive().clearQueue(data.queue.checked)">
+                <button
+                    @click="appStore.getActive().clearQueue(data.queue.checked)"
+                    title="Reset Current Track">
                     清空当前
                 </button>
                 <button
-                    @click="appStore.getActive().addEmptyToQueue(data.queue.checked)">添加空
+                    @click="appStore.getActive().addEmptyToQueue(data.queue.checked)"
+                    title="Add Empty Animation">添加空
                 </button>
                 <button
-                    @click="appStore.getActive().addHiddenToQueue(data.queue.checked)">
+                    @click="appStore.getActive().addHiddenToQueue(data.queue.checked)"
+                    title="Add Hidden-Animation">
                     添加隐藏
                 </button>
             </div>
         </div>
         <div class="col">
             <span class="row-label">
-                插槽
+                <span title="Slot">插槽</span>
                 <input type="text" v-model="data.slotKey"
                        class="slot-key"
                        spellcheck="false"
@@ -151,8 +155,10 @@
                 <input type="checkbox" v-model="pathSwitch"
                        id="path-switch"
                        class="track-radio">
-                <label for="path-switch" class="animation-track">P</label>
-                <button @click="resetSlots">重置</button>
+                <label for="path-switch"
+                       class="animation-track"
+                       :title="`Switch Path Display\n切换显示插槽当前attachment的path`">P</label>
+                <button @click="resetSlots" title="Reset">重置</button>
             </span>
             <ol class="list" id="slots">
                 <li v-for="(slot, i) of data.slots" :key="i"
