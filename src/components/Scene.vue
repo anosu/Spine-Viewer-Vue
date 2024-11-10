@@ -8,7 +8,7 @@
             <div>X: {{ data.coordinate.x.toFixed() }}px</div>
             <div>Y: {{ data.coordinate.y.toFixed() }}px</div>
         </div>
-        <div id="spine-version">
+        <div id="spine-version" v-show="data.spineVersion">
             <span>Spine {{ data.spineVersion }}</span>
         </div>
     </div>
@@ -34,7 +34,7 @@ const data = reactive({
         x: appStore.active.container.data.position.x,
         y: appStore.active.container.data.position.y
     },
-    spineVersion: appStore.active.container.spineVersion
+    spineVersion: null
 })
 
 let resizeTimer, resizeTimer2;
@@ -61,6 +61,10 @@ watch(() => appStore.active.container.data.position.x, x => {
 watch(() => appStore.active.container.data.position.y, y => {
     data.coordinate.y = y
 }, {immediate: true})
+
+watch(() => appStore.active.container.spineVersion.value, version => {
+    data.spineVersion = version
+})
 
 onMounted(() => {
     const display = getById('display')
