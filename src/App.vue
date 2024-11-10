@@ -233,6 +233,7 @@ function onLoaded(loader, res) {
             activeContainer.stage.removeChildren()
             if (activeContainer.background) activeContainer.stage.addChild(activeContainer.background)
         }
+        activeContainer.spineVersion.value = validSkeletonAnimations[0].spineData.version
         validSkeletonAnimations.forEach(a => activeContainer.stage.addChild(a))
         skins.value = newSkins
         animations.value = newAnimations

@@ -38,7 +38,6 @@
         <ItemBar/>
         <div class="row">
             <button @click="playAllAnimationQueue" title="Play Queue">播放队列</button>
-
             <button @click="exportStore.show" title="Export Animation">导出动画</button>
         </div>
         <div class="row">

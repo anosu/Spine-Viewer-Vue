@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import {computed, reactive} from "vue";
+import {computed, reactive, ref} from "vue";
 import {Spine} from "pixi-spine";
 
 export class Container {
@@ -8,6 +8,7 @@ export class Container {
         this.stage = new PIXI.Container()
         this.textures = []
         this.background = null
+        this.spineVersion = ref('')
         this.data = reactive({
             position: {
                 _x: 0,

@@ -8,6 +8,9 @@
             <div>X: {{ data.coordinate.x.toFixed() }}px</div>
             <div>Y: {{ data.coordinate.y.toFixed() }}px</div>
         </div>
+        <div id="spine-version">
+            <span>Spine {{ data.spineVersion }}</span>
+        </div>
     </div>
 </template>
 
@@ -30,7 +33,8 @@ const data = reactive({
         show: true,
         x: appStore.active.container.data.position.x,
         y: appStore.active.container.data.position.y
-    }
+    },
+    spineVersion: appStore.active.container.spineVersion
 })
 
 let resizeTimer, resizeTimer2;
@@ -50,11 +54,11 @@ const displayObserver = new ResizeObserver((entry) => {
     }, 100)
 });
 
-watch(() => appStore.active.container.data.position.x, (x) => {
+watch(() => appStore.active.container.data.position.x, x => {
     data.coordinate.x = x
 }, {immediate: true})
 
-watch(() => appStore.active.container.data.position.y, (y) => {
+watch(() => appStore.active.container.data.position.y, y => {
     data.coordinate.y = y
 }, {immediate: true})
 
@@ -185,5 +189,12 @@ pixiApp.view.addEventListener('pointerout', () => {
     z-index: 8;
     color: #d2d2d2;
     position: absolute;
+}
+
+#spine-version {
+    color: #d2d2d2;
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
 }
 </style>
