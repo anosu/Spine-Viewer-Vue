@@ -120,10 +120,10 @@ app.whenReady().then(() => {
         contextMenu.popup(win, ev.x, ev.y);
     })
 
-    ipcMain.handle('save-image', (ev, ab) => {
+    ipcMain.handle('save-image', (ev, ab, name) => {
         const imagePath = dialog.showSaveDialogSync(win, {
             title: '保存图片',
-            defaultPath: 'save.png',
+            defaultPath: `${name}.png`,
             properties: ['createDirectory']
         })
         if (imagePath) {

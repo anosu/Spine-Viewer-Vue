@@ -45,7 +45,7 @@
             <button @click="saveImage" title="Save Image">保存图片</button>
         </div>
         <div class="tips">
-            <span >Hover over text to get English</span>
+            <span>Hover over text to get English</span>
             <span title="Press Ctrl+Shift+I to open the console to check errors">Ctrl+Shift+I打开控制台检查报错</span>
             <span title="Middle mouse button collapse/expand">鼠标中键收起/展开</span>
         </div>
@@ -86,7 +86,7 @@ const saveImage = () => {
     pixiApp.view.toBlob(async (blob) => {
         if (blob) {
             const ab = await blob.arrayBuffer()
-            const result = await ipcRenderer.invoke('save-image', ab)
+            const result = await ipcRenderer.invoke('save-image', ab, appStore.getActive().name)
             console.log(result)
         } else {
             console.log('Generate blob failed')
