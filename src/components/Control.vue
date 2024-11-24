@@ -2,35 +2,41 @@
     <div id="side" ref="controlBar">
         <div class="row">
             <input type="file" ref="fileInput" id="fileInput" multiple accept=".json,.skel" placeholder="">
-            <button @click="switchControl" title="Switch collapse/expand">收起</button>
+            <button @click="switchControl" title="Switch collapse/expand">{{ $t('control.collapse') }}</button>
         </div>
         <div class="row">
-            <label for="zoom" class="option-label" title="Zoom">缩放</label>
+            <label style="width: 70px" title="Language"> Language </label>
+            <select class="select-list" v-model="language">
+                <option v-for="(lang, code) in $i18n.messages" :value="code">{{ lang.name }}</option>
+            </select>
+        </div>
+        <div class="row">
+            <label for="zoom" class="option-label" title="Zoom">{{ $t('control.zoom') }}</label>
             <input type="range" id="zoom" v-model.number="data.zoom" min="0.1" max="5"
                    step="0.01">
             <span class="option-value">{{ (data.zoom * 100).toFixed() }}%</span>
-            <button @click="resetZoom" title="Reset">重置</button>
+            <button @click="resetZoom" title="Reset">{{ $t('control.reset') }}</button>
         </div>
         <div class="row">
-            <label for="time-scale" class="option-label" title="Speed">速度</label>
+            <label for="time-scale" class="option-label" title="Speed">{{ $t('control.speed') }}</label>
             <input type="range" id="time-scale" v-model.number="data.timeScale" min="0"
                    max="5"
                    step="0.01">
             <span id="speed-show" class="option-value">{{ data.timeScale.toFixed(2) }}x</span>
-            <button @click="resetSpeed" title="Reset">重置</button>
+            <button @click="resetSpeed" title="Reset">{{ $t('control.reset') }}</button>
         </div>
         <div class="row">
-            <label for="default-mix" class="option-label" title="MixTime">Mix</label>
+            <label for="default-mix" class="option-label" title="MixTime">{{ $t('control.defaultMix') }}</label>
             <input type="range" id="default-mix" v-model.number="data.defaultMix" min="0"
                    max="2"
                    step="0.1">
             <span id="default-mix-show" class="option-value">
                 {{ data.defaultMix.toFixed(1) }}s
             </span>
-            <button @click="resetMix" title="Reset">重置</button>
+            <button @click="resetMix" title="Reset">{{ $t('control.reset') }}</button>
         </div>
         <div class="row">
-            <span title="Alpha Mode">透明度模式</span>
+            <span title="Alpha Mode">{{ $t('control.alphaMode') }}</span>
             <ol class="option-bar">
                 <li v-for="(alias, mode) in ['NPM', 'UNPACK', 'PMA']">
                     <input type="radio" name="alpha-mode"
@@ -42,16 +48,24 @@
             </ol>
         </div>
         <div class="row">
-            <button @click="resetPosition" style="width: 70px" title="Reset Position">重置位置</button>
-            <button @click="pauseAnimation" style="width: 70px" title="Stop Animation">暂停动画</button>
+            <button @click="resetPosition" style="width: 80px" title="Reset Position">
+                {{ $t('control.resetPosition') }}
+            </button>
+            <button @click="pauseAnimation" style="width: 80px" title="Pause Animation">
+                {{ $t('control.pauseAnimation') }}
+            </button>
         </div>
         <div class="row">
-            <button @click="setBackgroundImage" style="width: 70px" title="Set Background">设置背景</button>
-            <button @click="removeBackgroundImage" style="width: 70px" title="Remove Background">移除背景</button>
+            <button @click="setBackgroundImage" style="width: 80px" title="Set Background">
+                {{ $t('control.setBackgroundImage') }}
+            </button>
+            <button @click="removeBackgroundImage" style="width: 80px" title="Remove Background">
+                {{ $t('control.removeBackgroundImage') }}
+            </button>
         </div>
 
         <div class="col">
-            <span class="animation-label" title="Skin">皮肤</span>
+            <span class="animation-label" title="Skin">{{ $t('control.skin') }}</span>
             <ol class="list">
                 <li v-for="(skin, i) of data.skins" :key="i">
                     <input :id="`skin-${skin}`" :value="skin"
@@ -65,7 +79,7 @@
         </div>
         <div class="col">
             <div class="row-label">
-                <span title="Animation">动画</span>
+                <span title="Animation" style="max-width: 40px">{{ $t('control.animation') }}</span>
                 <ol class="track-wrap">
                     <li v-for="i in 7" :key="i-1">
                         <input type="radio" name="animation-track" :id="`animation-track${i-1}`" :value="i-1"
@@ -74,7 +88,7 @@
                         <label :for="`animation-track${i-1}`" class="animation-track">{{ i - 1 }}</label>
                     </li>
                 </ol>
-                <button @click="exportStore.show" title="Export">导出</button>
+                <button @click="exportStore.show" title="Export">{{ $t('control.export') }}</button>
             </div>
             <ol class="list">
                 <li v-for="(animation,i) in data.animations" :key="`${appStore.activeIndex}-${i}`">
@@ -102,7 +116,7 @@
         </div>
         <div class="col">
             <div class="row-label">
-                <span title="Animation Queue">队列</span>
+                <span title="Animation Queue" style="max-width: 40px">{{ $t('control.queue') }}</span>
                 <ol class="track-wrap">
                     <li v-for="i in 7" :key="i-1">
                         <input type="radio" name="animation-queue-track"
@@ -113,7 +127,7 @@
                         <label :for="`animation-queue-track${i-1}`" class="animation-track">{{ i - 1 }}</label>
                     </li>
                 </ol>
-                <button @click="playAnimationQueue" title="Play">播放</button>
+                <button @click="playAnimationQueue" title="Play">{{ $t('control.play') }}</button>
             </div>
             <ol class="list">
                 <li v-for="(animation, i) in data.queue[data.queue.checked]"
@@ -132,22 +146,23 @@
                 <button
                     @click="appStore.getActive().clearQueue(data.queue.checked)"
                     title="Reset Current Track">
-                    清空当前
+                    {{ $t('control.clearCurrentTrack') }}
                 </button>
                 <button
                     @click="appStore.getActive().addEmptyToQueue(data.queue.checked)"
-                    title="Add Empty Animation">添加空
+                    title="Add Empty Animation">
+                    {{ $t('control.addEmptyAnimation') }}
                 </button>
                 <button
                     @click="appStore.getActive().addHiddenToQueue(data.queue.checked)"
                     title="Add Hidden-Animation">
-                    添加隐藏
+                    {{ $t('control.addHiddenAnimation') }}
                 </button>
             </div>
         </div>
         <div class="col">
             <span class="row-label">
-                <span title="Slot">插槽</span>
+                <span title="Slot">{{ $t('control.slot') }}</span>
                 <input type="text" v-model="data.slotKey"
                        class="slot-key"
                        spellcheck="false"
@@ -158,7 +173,7 @@
                 <label for="path-switch"
                        class="animation-track"
                        :title="`Switch Path Display\n切换显示插槽当前attachment的path`">P</label>
-                <button @click="resetSlots" title="Reset">重置</button>
+                <button @click="resetSlots" title="Reset">{{ $t('control.reset') }}</button>
             </span>
             <ol class="list" id="slots">
                 <li v-for="(slot, i) of data.slots" :key="i"
@@ -186,10 +201,10 @@
                         </span>
                     </span>
                     <div class="slot-alpha">
-                        <label :for="`${i}-${slot.data.name}`">A:</label>
                         <input :id="`${i}-${slot.data.name}`"
                                name="slot" type="range"
                                v-model.number="slot.color.a"
+                               style="width: 200px"
                                min="0" max="1" step="0.01">
                         <span class="slot-alpha-value">{{ slot.color.a.toFixed(2) }}</span>
                     </div>
@@ -204,7 +219,11 @@ import {computed, inject, onMounted, ref, watch} from "vue";
 import {createTag, getFileUrl, getUrlsByPaths, makeSwitcher} from "@/utils/util";
 import {useExportStore} from "@/stores/export";
 import {useAppStore} from "@/stores/app";
+import {useI18n} from "vue-i18n";
 
+const i18n = useI18n()
+
+const language = ref(i18n.locale)
 const controlBar = ref()
 const fileInput = ref()
 
@@ -224,11 +243,11 @@ const emit = defineEmits(['load']);
 const switchControl = makeSwitcher(true, (ev) => {
     controlBar.value.style.position = 'absolute'
     controlBar.value.style.transform = 'translate(calc(68px - 100%), calc(100% - 43px))'
-    ev.target.innerText = '展开'
+    ev.target.innerText = i18n.t('control.expand')
 }, (ev) => {
     controlBar.value.style.position = 'relative'
     controlBar.value.style.transform = 'none'
-    ev.target.innerText = '收起'
+    ev.target.innerText = i18n.t('control.collapse')
 })
 
 const resetZoom = () => {
@@ -302,6 +321,9 @@ const playAnimationQueue = () => {
     })
 }
 
+watch(language, value => {
+    localStorage.setItem('locale', value)
+})
 
 watch(() => data.value.skins.checked, (value) => {
     appStore.getActive().setSkin(value)
@@ -368,6 +390,7 @@ input[name='animation'] {
     transition: .3s;
     overflow: scroll;
     position: relative;
+    font-size: 14px;
     background-color: #333333;
     box-shadow: #252525 0 0 2px 1px;
 }
@@ -431,11 +454,12 @@ input[name='animation'] {
 }
 
 .option-label {
-    width: 32px;
+    font-size: 15px;
+    width: 40px;
 }
 
 .option-value {
-    width: 45px;
+    width: 36px;
 }
 
 .slot-key {
@@ -464,6 +488,7 @@ input[name='animation'] {
     gap: 2px;
     display: flex;
     align-items: center;
+    min-width: 166px;
 }
 
 .animation-track {
@@ -486,7 +511,7 @@ input[name='animation'] {
 }
 
 #side .functions button {
-    width: 70px;
+    width: 80px;
 }
 
 #side .add-to-queue {
@@ -507,6 +532,19 @@ input[name='animation'] {
 .animation-title {
     overflow: scroll;
     max-width: 164px;
+}
+
+.select-list {
+    display: block;
+    height: 24px;
+    padding: 3px 6px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 </style>

@@ -2,9 +2,7 @@
     <HeaderBar/>
     <main id="main">
         <div id="mask" v-show="isShowMask">
-            拖拽骨架文件到此
-            <br>
-            Drag the skeleton file here
+            {{ $t('app.dragTip') }}
             <br>
             .skel/.json
         </div>
@@ -29,10 +27,13 @@ import {useExportStore} from "@/stores/export";
 import {useSceneStore} from "@/stores/scene";
 import {useAppStore} from "@/stores/app";
 import useApp from "@/hooks/useApp";
+import i18n from "@/utils/lang";
 
 ipcRenderer.on('logging', (_ev, logs) => {
     console.log('[INFO] ', logs)
 })
+
+const {global: {t}} = i18n
 
 // 子组件
 const controlBar = ref()
@@ -95,7 +96,7 @@ const exportAnimation = () => {
 
     exportStore.running = true
     exportStore.setProgress(0, Math.floor(standard.duration / delta))
-    exportStore.setStatus('渲染中')
+    exportStore.setStatus(t('export.rendering'))
 
     ipcRenderer.invoke('prepare-export').then(() => {
         appStore.containers.forEach((c, i) => {
@@ -109,7 +110,7 @@ const exportAnimation = () => {
     function animate() {
         if (exportStore.renderComplete()) {
             ipcRenderer.invoke('compose', {format, framerate, filename, path})
-            exportStore.setStatus('合成中')
+            exportStore.setStatus(t('export.composing'))
             appStore.containers.forEach(c => {
                 c.update(standard.duration)
             })
@@ -140,20 +141,20 @@ const exportAnimation = () => {
 }
 
 ipcRenderer.on('export-complete', () => {
-    exportStore.setStatus('导出')
+    exportStore.setStatus(t('export.export'))
     exportStore.setProgress(0, 1)
     exportStore.running = false
 })
 
 window.onerror = function (message) {
     if (message.includes('Texture Error')) {
-        alert('贴图尺寸与图集不符合！\nWrong texture size!')
+        alert(t('error.textureSizeError'))
         location.reload()
     } else if (message.includes('Region not found')) {
-        alert('Spine文件错误！\nBad spine file!')
+        alert(t('error.spineFileError'))
         location.reload()
     } else if (message.includes("TypeError: Cannot set properties of null (setting 'scale')")) {
-        alert('不支持的Spine版本！\nUnsupported version of spine model!')
+        alert(t('error.unsupportedVersionError'))
         location.reload()
     } else if (message.includes('ResizeObserver loop completed')) {
     } else {

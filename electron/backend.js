@@ -113,7 +113,7 @@ app.whenReady().then(() => {
     ipcMain.on('show-context-menu', (ev) => {
         const contextMenu = new Menu();
         contextMenu.append(new MenuItem({
-            label: '复制图像',
+            label: 'Copy image',
             click: () => {
                 win.webContents.send('copy-image')
             }
@@ -123,7 +123,7 @@ app.whenReady().then(() => {
 
     ipcMain.handle('save-image', (ev, ab, name) => {
         const imagePath = dialog.showSaveDialogSync(win, {
-            title: '保存图片',
+            title: 'Save image',
             defaultPath: `${name}.png`,
             properties: ['createDirectory']
         })
@@ -141,7 +141,7 @@ app.whenReady().then(() => {
     // 导出gif相关
     ipcMain.handle('select-export-path', () => {
         const exportPath = dialog.showOpenDialogSync(win, {
-            title: '输出文件夹',
+            title: 'Output directory',
             properties: ['openDirectory']
         })
         return exportPath ? exportPath[0] : ''

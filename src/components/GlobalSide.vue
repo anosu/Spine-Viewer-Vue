@@ -1,9 +1,9 @@
 <template>
     <div id="global-side" :class="displayClass">
         <div class="row">
-            <label for="color-input" title="Background Color">背景</label>
+            <label for="color-input" title="Background Color">{{ $t('globalSide.backgroundColor') }}</label>
             <span class="bg-wrap">
-                <span title="Transparent">透明</span>
+                <span title="Transparent">{{ $t('globalSide.transparent') }}</span>
                 <span class="i-checkbox-wrap">
                     <input type="checkbox" id="bg-transparent" class="i-checkbox"
                            v-model="sceneStore.transparent">
@@ -15,15 +15,26 @@
             </span>
         </div>
         <div class="row">
-            <button @click="addContainer" title="Add">新增</button>
-            <button @click="removeContainer" title="Remove">删除</button>
-            <button @click="resetAll" title="Reset All">重置所有</button>
+            <button @click="addContainer" title="Add" class="side-button-small">{{ $t('globalSide.add') }}</button>
+            <button @click="removeContainer" title="Remove" class="side-button-small">{{
+                    $t('globalSide.remove')
+                }}
+            </button>
+            <button @click="resetAll" title="Reset All" class="side-button-small">{{
+                    $t('globalSide.resetAll')
+                }}
+            </button>
         </div>
         <div class="row">
-            <button @click="shiftUpContainer" title="Shift Up">上移</button>
-            <button @click="shiftDownContainer" title="Shift Down">下移</button>
+            <button @click="shiftUpContainer" title="Shift Up" class="side-button-small">{{
+                    $t('globalSide.shiftUp')
+                }}
+            </button>
+            <button @click="shiftDownContainer" title="Shift Down" class="side-button-small">
+                {{ $t('globalSide.shiftDown') }}
+            </button>
             <span class="bg-wrap">
-                <span title="Superposition">叠加</span>
+                <span title="Superposition" style="white-space: nowrap">{{ $t('globalSide.superposition') }}</span>
                 <span class="i-checkbox-wrap">
                     <input type="checkbox" id="superposition" class="i-checkbox"
                            v-model="appStore.superposition">
@@ -32,22 +43,31 @@
              </span>
         </div>
         <div class="row">
-            <span title="Current Selection">当前选中：</span>
+            <span title="Current Selection">{{ $t('globalSide.currentSelection') }}:</span>
             <span>{{ appStore.activeIndex }}</span>
         </div>
         <ItemBar/>
         <div class="row">
-            <button @click="playAllAnimationQueue" title="Play Queue">播放队列</button>
-            <button @click="exportStore.show" title="Export Animation">导出动画</button>
+            <button @click="playAllAnimationQueue" title="Play Queue" class="side-button-big">
+                {{ $t('globalSide.playQueue') }}
+            </button>
+            <button @click="exportStore.show" title="Export Animation" class="side-button-big">
+                {{ $t('globalSide.exportAnimation') }}
+            </button>
         </div>
         <div class="row">
-            <button @click="cancelAllHidden" title="Unhide">取消隐藏</button>
-            <button @click="saveImage" title="Save Image">保存图片</button>
+            <button @click="cancelAllHidden" title="Unhide" class="side-button-big">{{
+                    $t('globalSide.unhide')
+                }}
+            </button>
+            <button @click="saveImage" title="Save Image" class="side-button-big">{{
+                    $t('globalSide.saveImage')
+                }}
+            </button>
         </div>
         <div class="tips">
-            <span>Hover over text to get English</span>
-            <span title="Press Ctrl+Shift+I to open the console to check errors">Ctrl+Shift+I打开控制台检查报错</span>
-            <span title="Middle mouse button collapse/expand">鼠标中键收起/展开</span>
+            <span title="Press Ctrl+Shift+I to open the console">{{ $t('globalSide.checkConsole') }}</span>
+            <span title="Middle mouse button collapse/expand">{{ $t('globalSide.tips') }}</span>
         </div>
     </div>
 </template>
@@ -106,6 +126,7 @@ const saveImage = () => {
     padding: 10px;
     display: flex;
     transition: .5s;
+    font-size: 14px;
     overflow: scroll;
     position: absolute;
     background: #333333;
@@ -139,12 +160,24 @@ const saveImage = () => {
     background-color: #bbbbbb;
 }
 
+.side-button-small {
+    width: 60px;
+    white-space: nowrap;
+}
+
+.side-button-big {
+    width: 80px;
+    height: 25px;
+    white-space: nowrap;
+}
+
 .tips {
     display: flex;
     margin-top: auto;
     align-items: center;
     flex-direction: column;
     font-size: 12px;
+    text-align: center;
     gap: 3px;
 }
 </style>

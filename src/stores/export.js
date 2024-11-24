@@ -1,14 +1,16 @@
 import {defineStore} from "pinia";
-import {reactive, ref} from "vue";
+import {reactive, ref, watch} from "vue";
+
+import i18n from "@/utils/lang";
 
 export const useExportStore = defineStore('export', () => {
     let display = ref(false)
     let running = ref(false)
-    let status = ref('导出')
+    let status = ref()
     let options = reactive({
         format: 'GIF',
         framerate: 24,
-        filename: 'out',
+        filename: 'output',
         path: '',
     })
     let progress = reactive({
@@ -36,6 +38,8 @@ export const useExportStore = defineStore('export', () => {
     function renderComplete() {
         return progress.current >= progress.total
     }
+
+    watch(() => i18n.global.t('export.export'), value => status.value = value, {immediate: true})
 
     return {display, running, status, options, progress, hide, show, setStatus, setProgress, renderComplete}
 })

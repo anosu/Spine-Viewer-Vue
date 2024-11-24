@@ -1,0 +1,62 @@
+{
+  "name": "English",
+  "app": {
+    "dragTip": "Drag the skeleton file here"
+  },
+  "control": {
+    "collapse": "Coll.",
+    "expand": "Exp.",
+    "zoom": "Zoom",
+    "reset": "Reset",
+    "speed": "Speed",
+    "defaultMix": "Mix",
+    "alphaMode": "Alpha mode",
+    "resetPosition": "Reset pos",
+    "pauseAnimation": "Pause anim",
+    "setBackgroundImage": "Set BG",
+    "removeBackgroundImage": "Remove BG",
+    "skin": "Skin",
+    "animation": "Anim",
+    "export": "Export",
+    "queue": "Queue",
+    "play": "Play",
+    "clearCurrentTrack": "Clear track",
+    "addEmptyAnimation": "Add empty",
+    "addHiddenAnimation": "Add hidden",
+    "slot": "Slot"
+  },
+  "export": {
+    "outputFormat": "Output format",
+    "framerate": "Framerate",
+    "filename": "Filename",
+    "outputDirectory": "Output folder",
+    "canNotBeEmpty": "Cannot be null",
+    "select": "Select",
+    "close": "Close",
+    "export": "Export",
+    "rendering": "Rendering",
+    "composing": "Composing"
+  },
+  "globalSide": {
+    "backgroundColor": "BG",
+    "transparent": "Trans.",
+    "add": "Add",
+    "remove": "Remove",
+    "resetAll": "Reset",
+    "shiftUp": "Up",
+    "shiftDown": "Down",
+    "superposition": "Stack",
+    "currentSelection": "Current selection",
+    "playQueue": "Play queue",
+    "exportAnimation": "Export anim",
+    "unhide": "Unhide",
+    "saveImage": "Save image",
+    "checkConsole": "Press Ctrl+Shift+I to open the console",
+    "tips": "Middle mouse button collapse/expand"
+  },
+  "error": {
+    "textureSizeError": "Wrong texture size!",
+    "spineFileError": "Bad spine file!",
+    "unsupportedVersionError": "Unsupported version of spine model!"
+  }
+}
