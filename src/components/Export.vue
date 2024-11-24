@@ -52,6 +52,7 @@ const formats = {
     'GIF': 'GIF',
     'MP4': 'MP4',
     'GIF-HQ': 'GIF (HQ)',
+    'PNG-SEQ': 'PNG Sequence',
 }
 
 </script>

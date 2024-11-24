@@ -30,7 +30,7 @@ import {useSceneStore} from "@/stores/scene";
 import {useAppStore} from "@/stores/app";
 import useApp from "@/hooks/useApp";
 
-ipcRenderer.on('logs-out', (_ev, logs) => {
+ipcRenderer.on('logging', (_ev, logs) => {
     console.log('[INFO] ', logs)
 })
 
@@ -97,7 +97,7 @@ const exportAnimation = () => {
     exportStore.setProgress(0, Math.floor(standard.duration / delta))
     exportStore.setStatus('渲染中')
 
-    ipcRenderer.invoke('prepare-export', filename).then(() => {
+    ipcRenderer.invoke('prepare-export').then(() => {
         appStore.containers.forEach((c, i) => {
             const callback = i === standard.index ? onComplete : console.log
             c.playAnimationQueue(callback)
@@ -108,7 +108,7 @@ const exportAnimation = () => {
 
     function animate() {
         if (exportStore.renderComplete()) {
-            ipcRenderer.invoke('ffmpeg', {format, framerate, filename, path})
+            ipcRenderer.invoke('compose', {format, framerate, filename, path})
             exportStore.setStatus('合成中')
             appStore.containers.forEach(c => {
                 c.update(standard.duration)
@@ -270,7 +270,6 @@ onMounted(() => {
     getById('main').addEventListener('dragover', (ev) => {
         ev.preventDefault()
         isShowMask.value = true
-
     })
     getById('mask').addEventListener('dragleave', (ev) => {
         ev.preventDefault()

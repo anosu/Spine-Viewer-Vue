@@ -1,6 +1,6 @@
 {
   "name": "spine-viewer-vue",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "electron/backend.js",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "build": "npm run vite:build && npm run electron:build"
   },
   "dependencies": {
+    "fs-extra": "^11.2.0",
     "pinia": "^2.1.7",
     "pixi-spine": "^3.1.2",
     "pixi.js": "^6.5.10",
