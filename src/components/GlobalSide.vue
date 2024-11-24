@@ -126,7 +126,7 @@ const saveImage = () => {
     padding: 10px;
     display: flex;
     transition: .5s;
-    font-size: 14px;
+    font-size: 15px;
     overflow: scroll;
     position: absolute;
     background: #333333;

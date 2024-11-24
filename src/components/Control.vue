@@ -390,7 +390,7 @@ input[name='animation'] {
     transition: .3s;
     overflow: scroll;
     position: relative;
-    font-size: 14px;
+    font-size: 15px;
     background-color: #333333;
     box-shadow: #252525 0 0 2px 1px;
 }
