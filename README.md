@@ -17,6 +17,12 @@ Support multi spine files.
 
 Support exporting animation as GIF/MP4 with embedded ffmpeg.
 
+## Usage
+
+- Drag your skel/json file into the window or select in explorer.
+- Add animations to (Animation) Queue if you want to export them. The queue will be played when exporting.
+- What you see is what you get in most cases.
+
 ## Download
 
 [Release](https://github.com/anosu/Spine-Viewer-Vue/releases)
