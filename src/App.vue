@@ -20,7 +20,7 @@ import ExportModal from "@/components/Export.vue";
 import ControlBar from "@/components/Control.vue";
 import GlobalSide from "@/components/GlobalSide.vue";
 import * as PIXI from 'pixi.js'
-import {Spine} from "pixi-spine";
+import {Spine, TextureAtlasPage} from "pixi-spine";
 import {getById, getUrlsByPaths, makeSwitcher} from "@/utils/util";
 import {onMounted, provide, ref, toRefs, watch} from "vue";
 import {useExportStore} from "@/stores/export";
@@ -28,6 +28,14 @@ import {useSceneStore} from "@/stores/scene";
 import {useAppStore} from "@/stores/app";
 import useApp from "@/hooks/useApp";
 import i18n from "@/utils/lang";
+
+(() => {
+    const setFilters = TextureAtlasPage.prototype.setFilters
+    TextureAtlasPage.prototype.setFilters = function () {
+        this.baseTexture.setSize(this.width, this.height)
+        setFilters.apply(this, arguments)
+    }
+})()
 
 ipcRenderer.on('logging', (_ev, logs) => {
     console.log('[INFO] ', logs)
@@ -63,6 +71,10 @@ const pixiApp = new PIXI.Application({
     preserveDrawingBuffer: true,
     resolution: window.devicePixelRatio
 });
+pixiApp.loader.pre((resource, next) => {
+    pixiApp.loader.defaultQueryString = `t=${Date.now()}`
+    next()
+})
 
 provide('pixiApp', pixiApp)
 
@@ -163,7 +175,6 @@ window.onerror = function (message) {
 }
 
 function loadFiles(fileUrls) {
-    pixiApp.loader.defaultQueryString = `t=${Date.now()}`
     pixiApp.loader
         .reset()
         .add(fileUrls)

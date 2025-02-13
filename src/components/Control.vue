@@ -330,6 +330,9 @@ watch(() => data.value.skins.checked, (value) => {
 })
 
 onMounted(() => {
+    fileInput.value.addEventListener('click', () => {
+        fileInput.value.value = ''
+    })
     fileInput.value.addEventListener('change', () => {
         if (fileInput.value.files.length > 0) {
             const filePaths = Array.from(fileInput.value.files).map(f => f.path).filter(p => p.endsWith('skel') || p.endsWith('json'))
