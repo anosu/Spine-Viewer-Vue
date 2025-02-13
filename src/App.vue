@@ -163,6 +163,7 @@ window.onerror = function (message) {
 }
 
 function loadFiles(fileUrls) {
+    pixiApp.loader.defaultQueryString = `t=${Date.now()}`
     pixiApp.loader
         .reset()
         .add(fileUrls)
