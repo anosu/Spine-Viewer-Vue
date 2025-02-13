@@ -65,6 +65,11 @@
                 }}
             </button>
         </div>
+        <div class="row">
+            <button @click="reloadTexture" title="Reload Texture" class="side-button-big">
+                {{ $t('globalSide.reloadTexture') }}
+            </button>
+        </div>
         <div class="tips">
             <span title="Press Ctrl+Shift+I to open the console">{{ $t('globalSide.checkConsole') }}</span>
             <span title="Middle mouse button collapse/expand">{{ $t('globalSide.tips') }}</span>
@@ -79,7 +84,6 @@ import {useSceneStore} from "@/stores/scene";
 import {useAppStore} from "@/stores/app";
 import useApp from "@/hooks/useApp";
 import {useExportStore} from "@/stores/export";
-import {getById} from "@/utils/util";
 
 const pixiApp = inject('pixiApp')
 const appStore = useAppStore()
@@ -111,6 +115,35 @@ const saveImage = () => {
         } else {
             console.log('Generate blob failed')
         }
+    })
+}
+
+const reloadTexture = () => {
+    appStore.getActive().stage.children.forEach(a => {
+        const textures = {}
+        const slots = a.skeleton.slots
+        slots.forEach((slot, i) => {
+            const resource = slot.attachment?.region?.texture.baseTexture.resource
+            if (resource) {
+                textures[resource.url] = resource.url.split('?')[0]
+            }
+        })
+        pixiApp.loader.reset().add(Object.values(textures).map(path => ({
+            name: path,
+            url: path
+        }))).load((loader, resources) => {
+            slots.forEach(slot => {
+                const region = slot.attachment?.region
+                if (region && region.texture) {
+                    const textureUrl = textures[region.texture.baseTexture.resource.url]
+                    if (!textureUrl) return
+                    const baseTexture = resources[textureUrl].texture.baseTexture
+                    region.page.baseTexture = baseTexture
+                    region.texture.baseTexture = baseTexture
+                    region.texture.update()
+                }
+            })
+        })
     })
 }
 

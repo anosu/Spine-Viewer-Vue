@@ -75,6 +75,13 @@ pixiApp.loader.pre((resource, next) => {
     pixiApp.loader.defaultQueryString = `t=${Date.now()}`
     next()
 })
+pixiApp.loader.use((resource, next) => {
+    for (const key of [resource.name, resource.url]) {
+        PIXI.Texture.removeFromCache(key)
+        PIXI.BaseTexture.removeFromCache(key)
+    }
+    next()
+})
 
 provide('pixiApp', pixiApp)
 

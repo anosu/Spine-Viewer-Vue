@@ -52,7 +52,8 @@
     "unhide": "取消隐藏",
     "saveImage": "保存图片",
     "checkConsole": "Ctrl+Shift+I打开控制台",
-    "tips": "鼠标中键收起/展开"
+    "tips": "鼠标中键收起/展开",
+    "reloadTexture": "重载贴图"
   },
   "error": {
     "textureSizeError": "贴图尺寸与图集不符合！",
