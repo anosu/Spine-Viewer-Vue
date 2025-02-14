@@ -129,20 +129,28 @@ const reloadTexture = () => {
         name: path,
         url: path
     }))).load((loader, resources) => {
+        container.textures = Object.values(resources).map(res => res.texture.baseTexture)
+        container.textures.forEach(texture => {
+            texture.alphaMode = container.data.alphaMode
+            texture.update()
+        })
+        for (const url in baseTextures) {
+            const path = baseTextures[url]
+            baseTextures[url] = resources[path].texture.baseTexture
+        }
         container.stage.children.forEach(spine => {
             spine.skeleton.slots.forEach(slot => {
                 const region = slot.attachment?.region
                 if (region && region.texture) {
-                    const textureUrl = baseTextures[region.texture.baseTexture.resource.url]
-                    if (!textureUrl) return
-                    const baseTexture = resources[textureUrl].texture.baseTexture
+                    const {url} = region.texture.baseTexture.resource
+                    const baseTexture = baseTextures[url]
+                    if (!baseTexture) return
                     region.page.baseTexture = baseTexture
                     region.texture.baseTexture = baseTexture
                     region.texture.update()
                 }
             })
         })
-        container.textures = Object.values(resources).map(res => res.texture.baseTexture)
     })
 
     // container.stage.children.forEach(a => {
