@@ -119,23 +119,21 @@ const saveImage = () => {
 }
 
 const reloadTexture = () => {
-    appStore.getActive().stage.children.forEach(a => {
-        const textures = {}
-        const slots = a.skeleton.slots
-        slots.forEach((slot, i) => {
-            const resource = slot.attachment?.region?.texture.baseTexture.resource
-            if (resource) {
-                textures[resource.url] = resource.url.split('?')[0]
-            }
-        })
-        pixiApp.loader.reset().add(Object.values(textures).map(path => ({
-            name: path,
-            url: path
-        }))).load((loader, resources) => {
-            slots.forEach(slot => {
+    const baseTextures = {}
+    const container = appStore.getActive()
+    container.textures.forEach(texture => {
+        const url = texture.resource.url
+        baseTextures[url] = url.split('?')[0]
+    })
+    pixiApp.loader.reset().add(Object.values(baseTextures).map(path => ({
+        name: path,
+        url: path
+    }))).load((loader, resources) => {
+        container.stage.children.forEach(spine => {
+            spine.skeleton.slots.forEach(slot => {
                 const region = slot.attachment?.region
                 if (region && region.texture) {
-                    const textureUrl = textures[region.texture.baseTexture.resource.url]
+                    const textureUrl = baseTextures[region.texture.baseTexture.resource.url]
                     if (!textureUrl) return
                     const baseTexture = resources[textureUrl].texture.baseTexture
                     region.page.baseTexture = baseTexture
@@ -144,7 +142,35 @@ const reloadTexture = () => {
                 }
             })
         })
+        container.textures = Object.values(resources).map(res => res.texture.baseTexture)
     })
+
+    // container.stage.children.forEach(a => {
+    //     const baseTextures = {}
+    //     const slots = a.skeleton.slots
+    //     slots.forEach(slot => {
+    //         const resource = slot.attachment?.region?.texture.baseTexture.resource
+    //         if (resource) {
+    //             textures[resource.url] = resource.url.split('?')[0]
+    //         }
+    //     })
+    //     pixiApp.loader.reset().add(Object.values(baseTextures).map(path => ({
+    //         name: path,
+    //         url: path
+    //     }))).load((loader, resources) => {
+    //         slots.forEach(slot => {
+    //             const region = slot.attachment?.region
+    //             if (region && region.texture) {
+    //                 const textureUrl = baseTextures[region.texture.baseTexture.resource.url]
+    //                 if (!textureUrl) return
+    //                 const baseTexture = resources[textureUrl].texture.baseTexture
+    //                 region.page.baseTexture = baseTexture
+    //                 region.texture.baseTexture = baseTexture
+    //                 region.texture.update()
+    //             }
+    //         })
+    //     })
+    // })
 }
 
 </script>
