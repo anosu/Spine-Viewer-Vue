@@ -124,8 +124,9 @@ app.whenReady().then(() => {
     ipcMain.handle('save-image', (ev, ab, name) => {
         const imagePath = dialog.showSaveDialogSync(win, {
             title: 'Save image',
-            defaultPath: `${name}.png`,
-            properties: ['createDirectory']
+            defaultPath: name,
+            properties: ['createDirectory'],
+            filters: [{name: 'PNG', extensions: ['png']}]
         })
         if (imagePath) {
             try {

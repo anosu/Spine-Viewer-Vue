@@ -242,7 +242,7 @@ const emit = defineEmits(['load']);
 
 const switchControl = makeSwitcher(true, (ev) => {
     controlBar.value.style.position = 'absolute'
-    controlBar.value.style.transform = 'translate(calc(68px - 100%), calc(100% - 43px))'
+    controlBar.value.style.transform = 'translate(calc(68px - 100%), calc(100% - 40px))'
     ev.target.innerText = i18n.t('control.expand')
 }, (ev) => {
     controlBar.value.style.position = 'relative'

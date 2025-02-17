@@ -34,7 +34,7 @@ ipcRenderer.on('set-unmaximized-icon', () => maximizeIcon.value = '▢')
 header {
     z-index: 1;
     color: white;
-    height: 40px;
+    height: 30px;
     display: flex;
     position: relative;
     align-items: center;
@@ -46,27 +46,25 @@ header {
 
 .title.icon {
     left: 7px;
-    gap: 10px;
+    gap: 5px;
     height: 100%;
     padding: 3px;
     display: flex;
-    font-size: 20px;
     position: absolute;
     align-items: center;
 }
 
 .title.icon img {
     height: 100%;
-    border-radius: 7px
+    border-radius: 8px
 }
 
 .control-button {
-    width: 50px;
-    height: 40px;
+    width: 40px;
+    height: 30px;
     color: white;
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+    border-radius: 3px;
     background-color: transparent;
     -webkit-app-region: no-drag
 }
@@ -80,10 +78,10 @@ header {
 }
 
 .control-button.close:hover {
-    background-color: #de5757;
+    background-color: #c42b1c;
 }
 
 .control-button.close:active {
-    background-color: #f11111;
+    background-color: #b5231a;
 }
 </style>
