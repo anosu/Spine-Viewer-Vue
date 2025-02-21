@@ -32,7 +32,9 @@ import i18n from "@/utils/lang";
 (() => {
     const setFilters = TextureAtlasPage.prototype.setFilters
     TextureAtlasPage.prototype.setFilters = function () {
-        this.baseTexture.setSize(this.width, this.height)
+        if (this.baseTexture.width !== this.width || this.baseTexture.height !== this.height) {
+            this.baseTexture.setSize(this.width, this.height)
+        }
         setFilters.apply(this, arguments)
     }
 })()

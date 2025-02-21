@@ -95,11 +95,11 @@ app.whenReady().then(() => {
     createWindow(log)
 
     session.defaultSession.webRequest.onBeforeRequest({urls: ['file://*']}, (details, callback) => {
-        const reqUrl = details.url
+        const [reqUrl, queryString] = details.url.split('?')
         if (reqUrl.endsWith('.atlas')) {
             const filePath = decodeURIComponent(reqUrl.slice(8))
             if (!fs.existsSync(filePath)) {
-                callback({redirectURL: reqUrl + '.txt'})
+                callback({redirectURL: `${reqUrl}.txt?${queryString}`})
                 return
             }
         }
