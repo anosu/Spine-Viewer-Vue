@@ -6,6 +6,8 @@ import App from './App.vue'
 
 import i18n from "@/utils/lang";
 
+import './utils/patch'
+
 const app = createApp(App)
 
 app.use(i18n)

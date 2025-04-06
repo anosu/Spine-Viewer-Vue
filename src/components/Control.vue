@@ -43,7 +43,19 @@
                            :id="alias" :value="mode"
                            v-model.number="data.alphaMode"
                            class="list-option">
-                    <label :for="alias" class="alpha-mode-radio">{{ alias }}</label>
+                    <label :for="alias" class="mode-radio">{{ alias }}</label>
+                </li>
+            </ol>
+        </div>
+        <div class="row">
+            <span title="Scale Mode">{{ $t('control.scaleMode') }}</span>
+            <ol class="option-bar">
+                <li v-for="(alias, mode) in ['Nearest', 'Linear']">
+                    <input type="radio" name="scale-mode"
+                           :id="alias" :value="mode"
+                           v-model.number="data.scaleMode"
+                           class="list-option">
+                    <label :for="alias" class="mode-radio">{{ alias }}</label>
                 </li>
             </ol>
         </div>
@@ -431,7 +443,7 @@ input[name='animation'] {
     background-color: #666666;
 }
 
-.option-bar .alpha-mode-radio {
+.option-bar .mode-radio {
     width: 100%;
     height: 100%;
     padding: 5px;
@@ -442,11 +454,11 @@ input[name='animation'] {
     display: inline-block;
 }
 
-.option-bar .alpha-mode-radio:hover {
+.option-bar .mode-radio:hover {
     background-color: #777777;
 }
 
-.option-bar input:checked + .alpha-mode-radio {
+.option-bar input:checked + .mode-radio {
     background-color: #748d6f;
 }
 

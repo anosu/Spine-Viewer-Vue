@@ -20,7 +20,7 @@ import ExportModal from "@/components/Export.vue";
 import ControlBar from "@/components/Control.vue";
 import GlobalSide from "@/components/GlobalSide.vue";
 import * as PIXI from 'pixi.js'
-import {Spine, TextureAtlasPage} from "pixi-spine";
+import {Spine} from "pixi-spine";
 import {getById, getUrlsByPaths, makeSwitcher} from "@/utils/util";
 import {onMounted, provide, ref, toRefs, watch} from "vue";
 import {useExportStore} from "@/stores/export";
@@ -29,15 +29,12 @@ import {useAppStore} from "@/stores/app";
 import useApp from "@/hooks/useApp";
 import i18n from "@/utils/lang";
 
-(() => {
-    const setFilters = TextureAtlasPage.prototype.setFilters
-    TextureAtlasPage.prototype.setFilters = function () {
-        if (this.baseTexture.width !== this.width || this.baseTexture.height !== this.height) {
-            this.baseTexture.setSize(this.width, this.height)
-        }
-        setFilters.apply(this, arguments)
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'F12') {
+        e.preventDefault();
+        ipcRenderer.send('open-devtools');
     }
-})()
+})
 
 ipcRenderer.on('logging', (_ev, logs) => {
     console.log('[INFO] ', logs)
@@ -193,7 +190,7 @@ function loadFiles(fileUrls) {
 function onLoaded(loader, res) {
     const activeContainer = appStore.getActive()
 
-    const {alphaMode, zoom, timeScale, defaultMix, position} = activeContainer.data
+    const {alphaMode, scaleMode, zoom, timeScale, defaultMix, position} = activeContainer.data
     const {skins, animations, slots} = toRefs(activeContainer.data)
 
     const newSkins = appStore.superposition ? [...skins.value] : []
@@ -210,6 +207,7 @@ function onLoaded(loader, res) {
             try {
                 res[key].spineAtlas.pages.forEach(p => {
                     p.baseTexture.alphaMode = alphaMode
+                    p.baseTexture.scaleMode = scaleMode
                     newTextures.push(p.baseTexture)
                 });
                 const skeletonAnimation = new Spine(res[key].spineData)

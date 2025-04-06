@@ -70,6 +70,29 @@
                 {{ $t('globalSide.reloadTexture') }}
             </button>
         </div>
+        <div class="row">
+            <span title="Runtime Version" class="side-button-big">{{ $t('globalSide.runtimeVersion') }}: </span>
+            <ol class="option-bar">
+                <li class="option-item">
+                    <input type="radio" name="runtime-version"
+                           id="runtime-auto" value="0"
+                           v-model.number="runtime.version"
+                           class="list-option">
+                    <label for="runtime-auto" class="alpha-mode-radio">Auto</label>
+                </li>
+            </ol>
+        </div>
+        <div class="row">
+            <ol class="option-bar">
+                <li v-for="(version, alias) in versions" class="option-item">
+                    <input type="radio" name="runtime-version"
+                           :id="`runtime-${alias}`" :value="version"
+                           v-model.number="runtime.version"
+                           class="list-option">
+                    <label :for="`runtime-${alias}`" class="alpha-mode-radio">{{ alias }}</label>
+                </li>
+            </ol>
+        </div>
         <div class="tips">
             <span title="Press Ctrl+Shift+I to open the console">{{ $t('globalSide.checkConsole') }}</span>
             <span title="Middle mouse button collapse/expand">{{ $t('globalSide.tips') }}</span>
@@ -78,12 +101,14 @@
 </template>
 
 <script setup>
-import ItemBar from "@/components/ItemList.vue";
 import {inject, ref} from "vue";
+import useApp from "@/hooks/useApp";
+import {runtime} from "@/utils/patch";
+import ItemBar from "@/components/ItemList.vue";
 import {useSceneStore} from "@/stores/scene";
 import {useAppStore} from "@/stores/app";
-import useApp from "@/hooks/useApp";
 import {useExportStore} from "@/stores/export";
+import {SPINE_VERSION} from "@pixi-spine/loader-uni";
 
 const pixiApp = inject('pixiApp')
 const appStore = useAppStore()
@@ -105,6 +130,12 @@ const {
 defineExpose({
     displayClass
 })
+
+const versions = {
+    '3.7': SPINE_VERSION.VER37,
+    '3.8': SPINE_VERSION.VER38,
+    '4.1': SPINE_VERSION.VER41,
+}
 
 const saveImage = () => {
     pixiApp.view.toBlob(async (blob) => {
@@ -247,4 +278,40 @@ const reloadTexture = () => {
     text-align: center;
     gap: 3px;
 }
+
+.option-bar {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    font-size: 12px;
+    border-radius: 5px;
+    background-color: #666666;
+    justify-content: space-evenly;
+}
+
+.option-bar .alpha-mode-radio {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 0;
+    overflow: visible;
+    transition: all .15s;
+    display: inline-block;
+}
+
+.option-bar .alpha-mode-radio:hover {
+    background-color: #777777;
+}
+
+.option-bar input:checked + .alpha-mode-radio {
+    background-color: #748d6f;
+}
+
+.option-item {
+    width: 100%;
+    font-size: 13px;
+    text-align: center;
+}
+
 </style>

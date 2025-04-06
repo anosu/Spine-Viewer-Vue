@@ -11,6 +11,7 @@
     "speed": "Speed",
     "defaultMix": "Mix",
     "alphaMode": "Alpha mode",
+    "scaleMode": "Scale mode",
     "resetPosition": "Reset pos",
     "pauseAnimation": "Pause anim",
     "setBackgroundImage": "Set BG",
@@ -51,9 +52,10 @@
     "exportAnimation": "Export anim",
     "unhide": "Unhide",
     "saveImage": "Save image",
-    "checkConsole": "Press Ctrl+Shift+I to open the console",
+    "checkConsole": "Press F12 to open the console",
     "tips": "Middle mouse button collapse/expand",
-    "reloadTexture": "Reload Tex"
+    "reloadTexture": "Reload Tex",
+    "runtimeVersion": "Runtime Version"
   },
   "error": {
     "textureSizeError": "Wrong texture size!",

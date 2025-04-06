@@ -25,11 +25,12 @@ export default (appStore, pixiApp) => {
     }
 
     const resetAll = () => {
-        appStore.reset()
-        appStore.addContainer(pixiApp.view.clientWidth / 2, pixiApp.view.clientHeight / 2, 'Container')
-        pixiApp.stage.removeChildren()
-        pixiApp.stage.addChild(appStore.getActive().stage)
-        appStore.items.changed = !appStore.items.changed
+        // appStore.reset()
+        // appStore.addContainer(pixiApp.view.clientWidth / 2, pixiApp.view.clientHeight / 2, 'Container')
+        // pixiApp.stage.removeChildren()
+        // pixiApp.stage.addChild(appStore.getActive().stage)
+        // appStore.items.changed = !appStore.items.changed
+        location.reload()
     }
 
     const playAllAnimationQueue = () => {

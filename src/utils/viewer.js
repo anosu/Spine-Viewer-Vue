@@ -79,6 +79,19 @@ export class Container {
                     this.data._alphaMode = value
                 }
             }),
+            _scaleMode: 1,
+            scaleMode: computed({
+                get: () => {
+                    return this.data._scaleMode
+                },
+                set: (value) => {
+                    this.textures.forEach(t => {
+                        t.scaleMode = value
+                        // t.update()
+                    })
+                    this.data._scaleMode = value
+                }
+            }),
             skins: [],
             animations: [],
             tracks: [],

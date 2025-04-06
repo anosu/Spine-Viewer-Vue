@@ -11,6 +11,7 @@
     "speed": "速度",
     "defaultMix": "Mix",
     "alphaMode": "透明度模式",
+    "scaleMode": "缩放模式",
     "resetPosition": "重置位置",
     "pauseAnimation": "暂停动画",
     "setBackgroundImage": "设置背景",
@@ -51,9 +52,10 @@
     "exportAnimation": "导出动画",
     "unhide": "取消隐藏",
     "saveImage": "保存图片",
-    "checkConsole": "Ctrl+Shift+I打开控制台",
+    "checkConsole": "F12 打开控制台",
     "tips": "鼠标中键收起/展开",
-    "reloadTexture": "重载贴图"
+    "reloadTexture": "重载贴图",
+    "runtimeVersion": "运行时版本"
   },
   "error": {
     "textureSizeError": "贴图尺寸与图集不符合！",

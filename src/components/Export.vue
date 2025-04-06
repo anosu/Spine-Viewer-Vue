@@ -57,6 +57,7 @@ const formats = {
     'MP4': 'MP4',
     'GIF-HQ': 'GIF (HQ)',
     'PNG-SEQ': 'PNG Sequence',
+    'WEBM-VP9': 'WebM'
 }
 
 </script>
