@@ -197,6 +197,7 @@ function onLoaded(loader, res) {
     const newAnimations = appStore.superposition ? [...animations.value] : []
     const newSlots = appStore.superposition ? [...slots.value] : []
     const newTextures = appStore.superposition ? activeContainer.textures : []
+    const newAtlases = appStore.superposition ? activeContainer.atlases : []
 
     const validSkeletonAnimations = []
 
@@ -205,9 +206,10 @@ function onLoaded(loader, res) {
             const splitText = key.split('/')
             activeContainer.name = splitText[splitText.length - 1].split('.')[0]
             try {
+                newAtlases.push(res[key].spineAtlas)
                 res[key].spineAtlas.pages.forEach(p => {
                     p.baseTexture.alphaMode = alphaMode
-                    p.baseTexture.scaleMode = scaleMode
+                    if (scaleMode !== -1) p.baseTexture.scaleMode = scaleMode
                     newTextures.push(p.baseTexture)
                 });
                 const skeletonAnimation = new Spine(res[key].spineData)
@@ -259,6 +261,7 @@ function onLoaded(loader, res) {
         animations.value = newAnimations
         slots.value = newSlots.sort(slotCompare)
         activeContainer.textures = newTextures
+        activeContainer.atlases = newAtlases
         activeContainer.data.tracks.length = 0
         activeContainer.data.queue.forEach(q => q.length = 0)
         appStore.items[appStore.activeIndex] = activeContainer.name

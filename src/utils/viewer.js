@@ -7,6 +7,7 @@ export class Container {
         this.name = name
         this.stage = new PIXI.Container()
         this.textures = []
+        this.atlases = []
         this.background = null
         this.spineVersion = ref('')
         this.data = reactive({
@@ -79,16 +80,20 @@ export class Container {
                     this.data._alphaMode = value
                 }
             }),
-            _scaleMode: 1,
+            _scaleMode: -1,
             scaleMode: computed({
                 get: () => {
                     return this.data._scaleMode
                 },
                 set: (value) => {
-                    this.textures.forEach(t => {
-                        t.scaleMode = value
-                        // t.update()
-                    })
+                    if (value === -1) {
+                        this.setFilters()
+                    } else {
+                        this.textures.forEach(t => {
+                            t.scaleMode = value
+                            // t.update()
+                        })
+                    }
                     this.data._scaleMode = value
                 }
             }),
@@ -106,6 +111,12 @@ export class Container {
         this.data.skins.checked = ''
         this.data.tracks.checked = 0
         this.data.queue.checked = 0
+    }
+
+    setFilters() {
+        this.atlases.forEach(atlas => {
+            atlas.pages.forEach(page => page.setFilters())
+        })
     }
 
     setSkin(skinName) {

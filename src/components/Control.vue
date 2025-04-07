@@ -50,7 +50,11 @@
         <div class="row">
             <span title="Scale Mode">{{ $t('control.scaleMode') }}</span>
             <ol class="option-bar">
-                <li v-for="(alias, mode) in ['Nearest', 'Linear']">
+                <li v-for="(mode, alias) in {
+                    Auto: -1,
+                    Nearest: SCALE_MODES.NEAREST,
+                    Linear: SCALE_MODES.LINEAR
+                }">
                     <input type="radio" name="scale-mode"
                            :id="alias" :value="mode"
                            v-model.number="data.scaleMode"
@@ -232,6 +236,7 @@ import {createTag, getFileUrl, getUrlsByPaths, makeSwitcher} from "@/utils/util"
 import {useExportStore} from "@/stores/export";
 import {useAppStore} from "@/stores/app";
 import {useI18n} from "vue-i18n";
+import {SCALE_MODES} from "pixi.js";
 
 const i18n = useI18n()
 
