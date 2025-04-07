@@ -3,6 +3,7 @@ const {exec, spawn} = require('child_process')
 const path = require('path')
 // const http = require("http");
 const fs = require('fs-extra')
+const {fileURLToPath} = require('url')
 
 app.commandLine.appendSwitch('charset', 'utf-8');
 process.env.CACHE_PATH = path.join(__dirname, 'cache')
@@ -97,7 +98,7 @@ app.whenReady().then(() => {
     session.defaultSession.webRequest.onBeforeRequest({urls: ['file://*']}, (details, callback) => {
         const [reqUrl, queryString] = details.url.split('?')
         if (reqUrl.endsWith('.atlas')) {
-            const filePath = decodeURIComponent(reqUrl.slice(8))
+            const filePath = fileURLToPath(details.url)
             if (!fs.existsSync(filePath)) {
                 callback({redirectURL: `${reqUrl}.txt?${queryString}`})
                 return
