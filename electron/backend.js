@@ -82,7 +82,9 @@ const createWindow = (log) => {
 app.whenReady().then(() => {
     let log = {
         name: 'app',
-        error: ''
+        error: '',
+        CACHE_PATH: process.env.CACHE_PATH,
+        FFMPEG_PATH: process.env.FFMPEG_PATH
     }
     if (!fs.existsSync(process.env.CACHE_PATH)) {
         fs.mkdirSync(process.env.CACHE_PATH, {recursive: true});
