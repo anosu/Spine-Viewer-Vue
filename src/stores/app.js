@@ -15,6 +15,7 @@ export const useAppStore = defineStore('app', () => {
         changed: items.changed
     }))
     let superposition = ref(false)
+    let skinCombination = ref(false)
 
     function getActive() {
         return containers[activeIndex.value]
@@ -59,6 +60,7 @@ export const useAppStore = defineStore('app', () => {
         containers,
         activeIndex,
         superposition,
+        skinCombination,
         getActive,
         addContainer,
         removeContainer,

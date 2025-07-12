@@ -80,6 +80,7 @@ select:focus {
     height: 100%;
     display: flex;
     padding: 7px 5px;
+    margin: 2px 0;
     justify-content: space-between;
 }
 

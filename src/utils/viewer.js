@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import {computed, reactive, ref} from "vue";
 import {Spine} from "pixi-spine";
+import {Skin} from "@pixi-spine/runtime-4.1";
 
 export class Container {
     constructor(x, y, name) {
@@ -108,9 +109,9 @@ export class Container {
         })
         this.data.position.x = x
         this.data.position.y = y
-        this.data.skins.checked = ''
         this.data.tracks.checked = 0
         this.data.queue.checked = 0
+        this.data.checkedSkins = reactive([])
     }
 
     setFilters() {
@@ -120,12 +121,27 @@ export class Container {
     }
 
     setSkin(skinName) {
-        this.stage.children.forEach(a => {
-            if (a.skeleton?.data.skins.some(s => s.name === skinName)) {
-                a.skeleton.setSkinByName(skinName)
+        if (typeof skinName === "string") {
+            this.stage.children.forEach(a => {
+                if (a.skeleton?.data.skins.some(s => s.name === skinName)) {
+                    a.skeleton.setSkinByName(skinName)
+                    a.skeleton.setSlotsToSetupPose()
+                }
+            })
+        } else if (Array.isArray(skinName)) {
+            this.stage.children.forEach(a => {
+                if (!a.skeleton) return
+                const skin = new Skin("_")
+                skinName.forEach(name => {
+                    const s = a.skeleton.data.findSkin(name)
+                    if (s) skin.addSkin(s)
+                })
+                a.skeleton.setSkin(skin)
                 a.skeleton.setSlotsToSetupPose()
-            }
-        })
+            })
+        } else {
+            throw new Error("Unknown skin name " + JSON.stringify(skinName))
+        }
     }
 
     setAnimation(trackIndex, animationName, loop) {

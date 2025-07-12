@@ -81,12 +81,22 @@
         </div>
 
         <div class="col">
-            <span class="animation-label" title="Skin">{{ $t('control.skin') }}</span>
+            <div class="row" style="width: 100%">
+                <span class="animation-label" title="Skin">{{ $t('control.skin') }}</span>
+                <span class="bg-wrap">
+                    <span title="Combination" style="white-space: nowrap">{{ $t('control.combination') }}</span>
+                    <span class="i-checkbox-wrap">
+                        <input type="checkbox" id="skip-combination" class="i-checkbox"
+                               v-model="appStore.skinCombination">
+                        <label for="skip-combination" class="i-label"></label>
+                    </span>
+                </span>
+            </div>
             <ol class="list">
                 <li v-for="(skin, i) of data.skins" :key="i">
                     <input :id="`skin-${skin}`" :value="skin"
-                           v-model="data.skins.checked"
-                           type="radio" class="list-option">
+                           v-model="data.checkedSkins"
+                           type="checkbox" class="list-option">
                     <label :for="`skin-${skin}`" :title="skin">
                         {{ skin }}
                     </label>
@@ -342,8 +352,16 @@ watch(language, value => {
     localStorage.setItem('locale', value)
 })
 
-watch(() => data.value.skins.checked, (value) => {
-    appStore.getActive().setSkin(value)
+watch(() => data.value.checkedSkins, (newValue, oldValue) => {
+    // 可能会导致循环修改
+    if (!appStore.skinCombination) {
+        if (newValue.length > oldValue.length) {
+            newValue.splice(0, oldValue.length)
+        } else if (newValue.length < oldValue.length) {
+            newValue.length = 0
+        }
+    }
+    appStore.getActive().setSkin(newValue)
 })
 
 onMounted(() => {

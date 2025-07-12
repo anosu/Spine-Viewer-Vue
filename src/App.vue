@@ -262,6 +262,7 @@ function onLoaded(loader, res) {
         slots.value = newSlots.sort(slotCompare)
         activeContainer.textures = newTextures
         activeContainer.atlases = newAtlases
+        activeContainer.data.checkedSkins.length = 0
         activeContainer.data.tracks.length = 0
         activeContainer.data.queue.forEach(q => q.length = 0)
         appStore.items[appStore.activeIndex] = activeContainer.name
