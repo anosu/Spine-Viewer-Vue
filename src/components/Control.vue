@@ -87,8 +87,10 @@
                     <span title="Combination" style="white-space: nowrap">{{ $t('control.combination') }}</span>
                     <span class="i-checkbox-wrap">
                         <input type="checkbox" id="skip-combination" class="i-checkbox"
-                               v-model="appStore.skinCombination">
-                        <label for="skip-combination" class="i-label"></label>
+                               :disabled="!canCombineSkin.value"
+                               v-model="appStore.active.container.skinCombination.value">
+                        <label for="skip-combination" class="i-label"
+                               :style="canCombineSkin.value ? '' : 'cursor: not-allowed;'"></label>
                     </span>
                 </span>
             </div>
@@ -257,9 +259,8 @@ const fileInput = ref()
 const appStore = useAppStore()
 const exportStore = useExportStore()
 
-const data = computed(() => {
-    return appStore.active.container.data
-})
+const data = computed(() => appStore.active.container.data)
+const canCombineSkin = computed(() => appStore.active.container.canCombineSkin)
 
 const pathSwitch = ref(false)
 
@@ -354,7 +355,7 @@ watch(language, value => {
 
 watch(() => data.value.checkedSkins, (newValue, oldValue) => {
     // 可能会导致循环修改
-    if (!appStore.skinCombination) {
+    if (!appStore.getActive().skinCombination.value) {
         if (newValue.length > oldValue.length) {
             newValue.splice(0, oldValue.length)
         } else if (newValue.length < oldValue.length) {

@@ -11,6 +11,8 @@ export class Container {
         this.atlases = []
         this.background = null
         this.spineVersion = ref('')
+        this.canCombineSkin = ref(true)
+        this.skinCombination = ref(false)
         this.data = reactive({
             position: {
                 _x: 0,
@@ -114,6 +116,20 @@ export class Container {
         this.data.checkedSkins = reactive([])
     }
 
+    addSpine(spine) {
+        this.stage.addChild(spine)
+        for (const a of this.stage.children) {
+            const skins = a.skeleton?.data.skins
+            if (!skins || !skins.length) continue
+            if (!skins[0].bones) {
+                this.canCombineSkin.value = false
+                this.skinCombination.value = false
+                return
+            }
+        }
+        this.canCombineSkin.value = true
+    }
+
     setFilters() {
         this.atlases.forEach(atlas => {
             atlas.pages.forEach(page => page.setFilters())
@@ -129,6 +145,10 @@ export class Container {
                 }
             })
         } else if (Array.isArray(skinName)) {
+            if (skinName.length === 1) {
+                this.setSkin(skinName[0])
+                return
+            }
             this.stage.children.forEach(a => {
                 if (!a.skeleton) return
                 const skin = new Skin("_")
