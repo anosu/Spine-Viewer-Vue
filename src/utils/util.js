@@ -32,12 +32,11 @@ export const swap = (array, i, j) => {
 export const highlight = (() => {
     const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
-            console.log(entry)
             if (entry.isIntersecting) {
                 entry.target.classList.add('highlight-flash');
                 setTimeout(() => {
                     entry.target.classList.remove('highlight-flash');
-                }, 1000);
+                }, 1000)
                 obs.unobserve(entry.target)
             }
         })
