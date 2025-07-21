@@ -28,3 +28,21 @@ export const swap = (array, i, j) => {
     array[i] = array[j]
     array[j] = temp
 }
+
+export const highlight = (() => {
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            console.log(entry)
+            if (entry.isIntersecting) {
+                entry.target.classList.add('highlight-flash');
+                setTimeout(() => {
+                    entry.target.classList.remove('highlight-flash');
+                }, 1000);
+                obs.unobserve(entry.target)
+            }
+        })
+    }, {
+        threshold: 1
+    })
+    return e => observer.observe(e)
+})()

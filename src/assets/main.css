@@ -144,3 +144,23 @@ input.list-option {
     background-color: #738b70;
     color: #fff;
 }
+
+@keyframes smooth-highlight {
+    0% {
+        box-shadow: 0 0 0 rgba(225, 225, 225, 0.6);
+        background-color: transparent;
+    }
+    50% {
+        box-shadow: 0 0 10px 5px rgba(225, 225, 225, 0.7);
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(225, 225, 225, 0);
+        background-color: transparent;
+    }
+}
+
+.highlight-flash {
+    animation: smooth-highlight 1s ease-out;
+    border-radius: 6px;
+}

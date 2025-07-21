@@ -69,6 +69,14 @@
             <button @click="reloadTexture" title="Reload Texture" class="side-button-big">
                 {{ $t('globalSide.reloadTexture') }}
             </button>
+            <span class="bg-wrap">
+                <span title="Inspection" style="white-space: nowrap">{{ $t('globalSide.inspection') }}</span>
+                <span class="i-checkbox-wrap">
+                    <input type="checkbox" id="inspection" class="i-checkbox"
+                           v-model="appStore.inspection">
+                    <label for="inspection" class="i-label"></label>
+                </span>
+             </span>
         </div>
         <div class="row">
             <span title="Runtime Version" class="side-button-big">{{ $t('globalSide.runtimeVersion') }}: </span>

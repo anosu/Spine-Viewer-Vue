@@ -56,7 +56,8 @@
     "checkConsole": "Press F12 to open the console",
     "tips": "Middle mouse button collapse/expand",
     "reloadTexture": "Reload Tex",
-    "runtimeVersion": "Runtime Version"
+    "runtimeVersion": "Runtime Version",
+    "inspection": "Inspection"
   },
   "error": {
     "textureSizeError": "Wrong texture size!",

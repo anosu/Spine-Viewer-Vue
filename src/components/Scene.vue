@@ -11,6 +11,10 @@
         <div id="spine-version" v-show="data.spineVersion">
             <span>Spine {{ data.spineVersion }}</span>
         </div>
+        <div id="slot-info" v-show="appStore.inspection">
+            <div id="slot-info-name">Slot:</div>
+            <div id="slot-info-attachment">Attachment:</div>
+        </div>
     </div>
 </template>
 
@@ -199,6 +203,14 @@ pixiApp.view.addEventListener('pointerout', () => {
     color: #d2d2d2;
     position: fixed;
     right: 5px;
+    bottom: 5px;
+}
+
+#slot-info {
+    color: #d2d2d2;
+    position: absolute;
+    z-index: 8;
+    left: 10px;
     bottom: 5px;
 }
 </style>

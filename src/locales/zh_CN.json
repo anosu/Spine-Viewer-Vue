@@ -56,7 +56,8 @@
     "checkConsole": "F12 打开控制台",
     "tips": "鼠标中键收起/展开",
     "reloadTexture": "重载贴图",
-    "runtimeVersion": "运行时版本"
+    "runtimeVersion": "运行时版本",
+    "inspection": "检查"
   },
   "error": {
     "textureSizeError": "贴图尺寸与图集不符合！",

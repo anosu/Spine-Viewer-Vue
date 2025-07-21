@@ -211,7 +211,8 @@
                         : slot.data?.name || ''
                     )
                     .toLowerCase()
-                    .includes(data.slotKey.toLowerCase())">
+                    .includes(data.slotKey.toLowerCase())"
+                    :id="`${i}-slot-item`">
                     <span class="slot-title"
                           :title="pathSwitch ? 'Path: ' + (slot.attachment?.path || null) : slot.data.name">
                         <span class="slot-title-text">
@@ -219,17 +220,17 @@
                         </span>
                         <span class="i-checkbox-wrap">
                             <input type="checkbox"
-                                   :id="`${i}-${slot.data.name}-state`"
+                                   :id="`${i}-slot-state`"
                                    class="i-checkbox"
                                    v-model.number="slot.color.a"
                                    :true-value="1"
                                    :false-value="0"
                             >
-                            <label :for="`${i}-${slot.data.name}-state`" class="i-label"></label>
+                            <label :for="`${i}-slot-state`" class="i-label"></label>
                         </span>
                     </span>
                     <div class="slot-alpha">
-                        <input :id="`${i}-${slot.data.name}`"
+                        <input :id="`${i}-slot`"
                                name="slot" type="range"
                                v-model.number="slot.color.a"
                                style="width: 200px"
@@ -585,5 +586,4 @@ input[name='animation'] {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-
 </style>
